@@ -8,11 +8,9 @@ __pycache__
 *.log
 *.synctex.gz
 *.pdf
-data-tmp-mcq/
-data-tmp-oe/
 
 
-*.json
+.json
 *.eval
 *.env
 *.bbl

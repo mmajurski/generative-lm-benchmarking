@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import json
-from sentence_transformers import SentenceTransformer
+
 
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,17 +22,15 @@ def eval_question_alignent(dataset_fp):
     novel_folders = []
     # List all items in the directory
     for item in os.listdir(dataset_fp):
-        item_path = os.path.join(dataset_fp, item)
-        # Check if it's a directory and has 'reformat' in the name
-        if os.path.isdir(item_path) and 'novel' in item:
+        if item.endswith('.json') and 'novel' in item:
             novel_folders.append(item)
 
     # build the paired reformat names
     reformat_dataset_base_fp = os.path.dirname(dataset_fp)
     ds_base = os.path.basename(dataset_fp)
     toks = ds_base.split('-')
-    toks.insert(-1, 'reformat')
-    toks[-1] = 'L4M'  # only use the L4M model for reformat
+    toks[1] = 'L4M'  # only use the L4M model for reformat
+    toks.append('reformat')
     ds_base = '-'.join(toks)
     reformat_dataset_fp = os.path.join(reformat_dataset_base_fp, ds_base)
    
@@ -43,8 +41,8 @@ def eval_question_alignent(dataset_fp):
     
 
     scores_dict = dict()
-    if os.path.exists(os.path.join(dataset_fp, 'question_diversity_scores.json')):  
-        with open(os.path.join(dataset_fp, 'question_diversity_scores.json'), 'r') as f:
+    if os.path.exists(os.path.join(dataset_fp, 'question_diversity_scores.jsonl')):  
+        with open(os.path.join(dataset_fp, 'question_diversity_scores.jsonl'), 'r') as f:
             scores_dict = json.load(f)
 
     print("  loading embedding model")
@@ -68,8 +66,8 @@ def eval_question_alignent(dataset_fp):
 
         print(f"Processing {base_fn}")
         print("Computing question alignment for %s and %s" % (novel_folder, reformat_folder))
-        cur_novel_dataset_fp = os.path.join(novel_dataset_fp, novel_folder, novel_folder + '.jsonl')
-        cur_reformat_dataset_fp = os.path.join(reformat_dataset_fp, reformat_folder, reformat_folder + '.jsonl')
+        cur_novel_dataset_fp = os.path.join(novel_dataset_fp, novel_folder)
+        cur_reformat_dataset_fp = os.path.join(reformat_dataset_fp, reformat_folder)
         ds_novel, ds_reformat, orig_score = compute_question_alignment(cur_novel_dataset_fp, cur_reformat_dataset_fp, similarity_obj)
         
         scores_dict[base_fn] = {
@@ -79,7 +77,7 @@ def eval_question_alignent(dataset_fp):
         }
 
     
-    with open(os.path.join(dataset_fp, 'question_diversity_scores.json'), 'w') as f:
+    with open(os.path.join(dataset_fp, 'question_diversity_scores.jsonl'), 'w') as f:
         json.dump(scores_dict, f, indent=2)
     
 

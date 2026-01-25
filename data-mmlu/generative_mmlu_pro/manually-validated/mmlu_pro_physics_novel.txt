@@ -1,0 +1,82 @@
+================================================================================
+Question1: Explain why operating a hair dryer (or similar bathroom appliance) while a bathtub or basin is filled with water creates a significant shock hazard, focusing on how the water’s conductivity influences the formation of a ground‑fault current path that can pass through a person.
+Answer: Because water provides a low‑resistance path that can complete a fault circuit, allowing current from the appliance to flow through a person in contact with the water.
+Human Evaluation: Correct and Supported
+
+Question2: How does the difference in attachment distance of the back muscles compared with the quadriceps alter their mechanical advantage during a lift, and why does using the quadriceps to raise the load markedly reduce the compressive force on the vertebrae as illustrated in the example?
+Answer: Because back muscles have a short lever arm (low mechanical advantage) while quadriceps have a longer lever arm (high mechanical advantage), using the legs shifts the load to stronger joints and markedly lowers the force on the spine.
+Human Evaluation: Correct and Supported
+
+Question3: In a circuit where a switch is mistakenly wired in parallel with a resistive load, why does the load stay illuminated when the switch is open but go dark when the switch is closed, using Kirchhoff’s current law and the notion of a short circuit to justify the behavior?
+Answer: With the switch open, KCL forces all current through the load giving it full voltage; closing the switch creates a short‑circuit branch that shunts the current, leaving near‑zero voltage across the load so it extinguishes.
+Human Evaluation: Correct and Supported
+
+Question4: For the 50.0 L high‑pressure gas cylinder described (initial pressure Pᵢ, initial temperature Tᵢ), determine (a) the pressure after isochoric cooling to dry‑ice temperature T_dry, (b) the pressure if 90 % of the gas escapes, (c) the temperature to which the cylinder must be cooled to lower the pressure to 1 atm without any gas loss, and (d) whether such cooling is a practical safety strategy.
+Answer: After cooling P = Pᵢ·(T_dry/Tᵢ); after 90 % loss P = 0.1 Pᵢ·(T_dry/Tᵢ); to reach 1 atm T = (1 atm/Pᵢ)·Tᵢ, a temperature far too low for practical use, making cooling impractical.
+Human Evaluation: Correct but Unsupported because the context is missing the governing relationships (ideal gas law / proportionalities).
+
+Question5: Considering the decay processes of neutral and charged pions outlined, which component of an extensive air shower that spreads over several square kilometers retains the greatest share of the primary cosmic‑ray energy, and why?
+Answer: The electromagnetic component, because π⁰ decays into photons that dominate the cascade.
+Human Evaluation: Correct but Unsupported because the context is missing the show component energy shares.
+
+Question6: Starting from the continuity of pressure and particle velocity at an interface between two media, derive the intensity reflection coefficient for an ultrasound wave and explain the physical significance of the numerator, denominator, and the squaring operation in the resulting expression.
+Answer: R = [(Z₂ − Z₁)/(Z₂ + Z₁)]²; Z₁ and Z₂ are the media’s acoustic impedances, (Z₂ − Z₁) reflects mismatch, (Z₂ + Z₁) represents total impedance at the interface, and squaring yields the intensity ratio.
+Human Evaluation: Correct and Supported
+
+Question7: In a mixed series‑parallel network where a set of resistors is connected in parallel and that branch is in series with other elements, which tolerance extreme for the parallel resistors yields the highest total power dissipation, and why does this represent the worst‑case overload condition?
+Answer: When the parallel resistors are at their minimum tolerance (lowest resistance), because this minimizes equivalent resistance and maximizes total current and power.
+Human Evaluation: Correct and Supported
+
+Question8: During the inelastic collision of a moving disk with a stick pivoted at one end, why does the system’s angular momentum about the pivot remain conserved despite external forces, whereas its total linear momentum in the laboratory frame does not?
+Answer: Because the external force passes through the pivot, giving zero torque (conserving angular momentum), but it supplies a net external impulse that changes linear momentum.
+Human Evaluation: Correct and Supported
+
+Question9: Why can a pion exchanged between a proton and a neutron transmit the strong nuclear force without being directly observable, and how does its fleeting existence satisfy ΔE·Δt ≥ ħ/2 while leaving the total energy–momentum of the nucleon system unchanged?
+Answer: Because the pion exists only for a time Δt ≤ ħ/(2ΔE) (with ΔE = mc²), allowing a temporary energy borrowing that is repaid when the pion is reabsorbed, so the nucleon system’s total energy–momentum stays conserved, rendering the pion virtual and unobservable.
+Human Evaluation: Correct and Supported
+
+Question10: When a cyclist applies a constant torque to the drivetrain, how does decreasing the wheels’ moment of inertia affect the bicycle’s linear acceleration, and what is the underlying reason?
+Answer: Linear acceleration increases because a lower moment of inertia gives a higher angular acceleration for the same torque, reducing the rotational energy share and directing more power into translational motion.
+Human Evaluation: Correct but Unsupported as the context is missing the full causal chain.
+
+Question11: When bending forward to touch the toes while keeping the heels and back against a wall, what torque must the hip and knee muscles generate about the heels to keep the system in static equilibrium, and how does selecting the wall contact point as the pivot affect this torque calculation?
+Answer: A torque equal to the body’s weight multiplied by its horizontal distance from the heels; choosing the wall contact as pivot removes this torque because the wall reaction provides an equal balancing moment.
+Human Evaluation: Incorrect and Supported
+
+Question12: Derive, using the subshell capacity formula 2(2l + 1), why the total number of electrons that can occupy all subshells of a shell with principal quantum number n equals 2n², and list the implicit assumptions required for this derivation.
+Answer: Summing 2(2l + 1) for l = 0 to n‑1 yields 2n²; the derivation assumes the allowed l‑range (0 ≤ l ≤ n‑1), full m‑degeneracy (2l + 1), spin degeneracy of 2, independent full filling of subshells, and neglects relativistic and electron‑interaction effects.
+Human Evaluation: Correct and Supported
+
+Question13: Using γ = 1/√(1 − v²/c²), determine how the relativistic kinetic energy K = (γ − 1) mc² scales as v approaches c, and state the limiting value of the classical kinetic energy ½ mv² in the same limit.
+Answer: Relativistic K diverges to infinity, while classical K approaches ½ mc² (a finite value).
+Human Evaluation: Correct and Unsupported as the context is missing information about the classical limiting value.
+
+Question14: Which term describes chaotic systems that nevertheless develop organized, long‑lasting structures, and what is the example of such a structure in Jupiter’s atmosphere?
+Answer: Stable chaos, exemplified by the Great Red Spot on Jupiter.
+Human Evaluation: Correct and Supported
+
+Question15: Derive the decibel expression for sound‑intensity level from the fact that human hearing responds logarithmically to intensity, and explain why the formula uses a factor of 10 for intensity ratios but a factor of 20 when expressed in terms of pressure ratios.
+Answer: β = 10 log₁₀(I/I₀) = 20 log₁₀(p/p₀) (the factor 20 arises because intensity ∝ pressure²).
+Human Evaluation: Correct and Supported
+
+Question16: Which analytical method, involving the decomposition of the initial velocity into horizontal and vertical components, is used to determine a projectile's range, and what explicit assumption about air resistance does the context provide for this calculation?
+Answer: The analytical method that decomposes the initial velocity into horizontal and vertical components, with air resistance assumed zero.
+Human Evaluation: Correct and Supported but Degenerate and references the context
+
+Question17: How can one determine the fraction of a human body that remains submerged when floating in freshwater versus seawater based solely on the body’s overall density, and why does an increase in low‑density fat relative to higher‑density muscle cause that fraction to decrease (i.e., make the person float higher)?
+Answer: The submerged fraction equals the body’s density divided by the fluid’s density (ρ_body/ρ_water in fresh water and ρ_body/ρ_seawater in salt water); increasing low‑density fat lowers ρ_body, thus decreasing that fraction and raising the body higher in the water.
+Human Evaluation: Correct and Unsupported because context is missing the density fraction formula.
+
+Question18: How does defining internal energy microscopically as the total kinetic and potential energy of a system’s atoms and molecules justify the macroscopic first‑law relation ΔU = Q – W, and why does this make ΔU path‑independent while heat and work remain path‑dependent?
+Answer: Because internal energy is a state function determined solely by the microscopic kinetic and potential energies of the particles, its change equals the net heat added minus the net work done (ΔU = Q – W) for any process, making ΔU path‑independent while Q and W are path‑dependent.
+Human Evaluation: Correct and Supported
+
+Question19: Considering Germany’s 2020 renewable electricity share of 2.4 % and the projected rise in global energy demand, what does achieving the 2030 target of 65 % renewable power imply about its technical and economic feasibility?
+Answer: It implies an extremely challenging technical and economic undertaking, requiring about a 27‑fold increase in renewable share.
+Human Evaluation: Correct and Supported but the context table is missing some renewable information which makes the answer correct only w.r.t. the context. Additionally, the question is Degenerate and does not ask something interesting. 
+
+Question20: A 10‑cm pacemaker lead moving at 10 cm s⁻¹ perpendicular to an MRI scanner’s magnetic field generates a Hall voltage of 20 mV. What magnetic field strength does this imply, and, accounting for the lead’s inductance and the rapid switching of MRI gradient fields, is the induced current likely to disrupt pacemaker operation?
+Answer: 2 T, and the induced current is negligible, so pacemaker interference is unlikely.
+Human Evaluation: Correct and Unsupported because the context is missing information about lead inductance and MRI switching.
+
+

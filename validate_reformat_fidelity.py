@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer, util
 
 import prompts
 import answer_parser
-from model_interface import SglModelAsync
+from model_interface import SglModel
 
 
 
@@ -41,7 +41,7 @@ def compute_scores(dataset_fp, open_ended, remote, model, force=False):
     else:
         model_prompts = [prompts.REFORMAT_VALIDATION_PROMPT.format(context=d.get('context', ''), question1=d['orig_question'], answer1=d['orig_answer'], question2=d['question'], answer2=d['choices'][d['answer']]) for d in dataset]
 
-    model = SglModelAsync(remote=remote, model=model)
+    model = SglModel(remote=remote, model=model)
     results, total_time = model.generate(model_prompts)
     print(f"in total took: {total_time} seconds")
     print(f"per question took: {total_time / len(results)} seconds for {len(results)} questions")
@@ -77,6 +77,7 @@ def compute_scores(dataset_fp, open_ended, remote, model, force=False):
     print(f"Saving {len(dataset)} questions to {dataset_fp}")
     with open(dataset_fp, 'w') as f:
         json.dump(dataset, f, indent=2)
+    return
 
 
 def compute_cosine_similarity(dataset_fp, open_ended, model=None, force=False):
@@ -108,7 +109,7 @@ def compute_cosine_similarity(dataset_fp, open_ended, model=None, force=False):
         answers = [d['answer'] for d in dataset]
     else:
         answers = [d['choices'][d['answer']] for d in dataset]
-    orig_answers = [d['orig_answer'] for d in dataset]
+    orig_answers = [str(d['orig_answer']) for d in dataset]
 
     # Batch processing through GPU for better performance
     batch_size = 1024  # Adjust based on GPU memory
@@ -169,17 +170,13 @@ def compute_cosine_similarity(dataset_fp, open_ended, model=None, force=False):
 
 
 
-def validate_reformat_fidelity(ifp, open_ended=False, remote='opchat', model='Llama-4-Maverick-17B-128E-Instruct-FP8'):
+def validate_reformat_fidelity(ifp, open_ended=False, remote='rchat', model='Llama-4-Maverick-17B-128E-Instruct-FP8'):
 
     fns = []
     for fn in os.listdir(ifp):
-        if os.path.isdir(os.path.join(ifp, fn)) and 'reformat' in fn:
+        if fn.endswith('.json') and 'reformat' in fn:
             # Look for json files within these directories
-            dataset_dir = os.path.join(ifp, fn)
-            for file in os.listdir(dataset_dir):
-                if file.endswith('.jsonl'):
-                    # fns.append(os.path.join(dataset_dir, file))
-                    fns.append(file.replace('.jsonl', ''))
+            fns.append(fn)
     fns.sort()
     if len(fns) == 0:
         print(f"validate_reformat_fidelity: No datasets found in {ifp}")
@@ -189,15 +186,16 @@ def validate_reformat_fidelity(ifp, open_ended=False, remote='opchat', model='Ll
 
 
     emd_model = SentenceTransformer('all-MiniLM-L6-v2') 
-    # emd_model = SentenceTransformer("intfloat/e5-mistral-7b-instruct")
-    force_flag = True
+    force_flag = False
     print(f"validate_reformat_fidelity: Validating reformat fidelity for {len(fns)} datasets")
+    tries = 0
 
     for i, fn in enumerate(fns):
-        dataset_fp = f"{ifp}/{fn}/{fn}.jsonl"
+        dataset_fp = f"{ifp}/{fn}"
         print(f"Dataset: {dataset_fp}")
         print(f"Progress: {i+1}/{len(fns)}")
         compute_cosine_similarity(dataset_fp, open_ended, model=emd_model, force=force_flag)
+
         compute_scores(dataset_fp, open_ended, remote, model, force=force_flag)
     
 
@@ -208,7 +206,7 @@ def validate_reformat_fidelity(ifp, open_ended=False, remote='opchat', model='Ll
     for fn in fns:
         if 'sec_qa_reformat' in fn:
             continue
-        dataset_fp = f"{ifp}/{fn}/{fn}.jsonl"
+        dataset_fp = f"{ifp}/{fn}"
         with open(dataset_fp, 'r') as f:
             data = json.load(f)
 
@@ -242,13 +240,6 @@ def validate_reformat_fidelity(ifp, open_ended=False, remote='opchat', model='Ll
         print(f"  Average reformat question similarity score: {avg_question_similarity_score[fn]:.4f}")
         print(f"  Average reformat answer similarity score: {avg_answer_similarity_score[fn]:.4f}")
         print()
-
-
-
-if __name__ == '__main__':
-    ifp = './data-subset-1k-v0-L3-70B'
-    validate_reformat_fidelity(ifp)
-
 
 
 

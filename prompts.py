@@ -1,7 +1,7 @@
 
 SYSTEM_PROMPT = "You are an assistant that doesn't make mistakes. If a reference format is presented to you, you follow it perfectly without making errors."
 
-# If the answer cannot be determined from the information in the `<context>` respond with a low rating because we are not interested in outside information, only what is available in the `<context>`.
+# If the answer cannot be determined from the information in the <context> respond with a low rating because we are not interested in outside information, only what is available in the <context>.
 EXPLANATION_VALIDATION_PROMPT = """
 ## Your Role
 
@@ -35,11 +35,11 @@ Your input consists of:
 
 You will be evaluating and judging the whether the student's answer and their explanation of why their answer is correct makes sense and is logically valid.
 
-Your goal is to judge whether the information presented in `<answer>` is in fact the correct answer to the `<question>` given the information in the `<context>` and whether the `<explanation>` for why the answer is correct is valid. The information in `<context>` and `<question>` can be assumed true, only the context of `<answer>` needs to be validated for correctness.
+Your goal is to judge whether the information presented in `<answer>` is in fact the correct answer to the `<question>` given the information in the <context> and whether the `<explanation>` for why the answer is correct is valid. The information in <context> and `<question>` can be assumed true, only the context of `<answer>` needs to be validated for correctness.
 
 ### Metrics
 
-1. **Answer Correctness:** Rate from 1 to 10 how correct the provided student answer is given the information in the `<question>` and `<context>`. A rating of 1 indicates the answer is incorrect. A rating of 10 indicates the answer is correct and complete. 
+1. **Answer Correctness:** Rate from 1 to 10 how correct the provided student answer is given the information in the `<question>` and <context>. A rating of 1 indicates the answer is incorrect. A rating of 10 indicates the answer is correct and complete. 
 
 2. **Explanation Validity:** Rate from 1 to 10 how valid the students `<explanation>` of their answer is. The `<explanation>` should explain their thinking and the information used to determine the correct answer given the context and question. Low ratings indicate the explanation is not valid, correct, or that there is some flaw in the thinking or logic of the student. High ratings indicate the explanation is valid, correct, and explains why the answer is what it is. 
 
@@ -69,6 +69,7 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 
 - Each "thought_process" should reflect careful consideration and reasoning behind your ratings.
 - Ensure rigorous adherence to output formatting.
+- If either the question or answer is missing, rate the answer correctness and explanation validity as 1.
 
 
 <question>{question}</question>
@@ -108,11 +109,11 @@ Your input consists of:
 
 You will be evaluating and judging the whether the student's answer and their explanation of why their answer is correct makes sense and is logically valid.
 
-Your goal is to judge whether the information presented in `<answer>` is in fact the correct answer to the `<question>` given the information in the `<context>` and whether the `<explanation>` for why the answer is correct is valid. The information in `<context>` and `<question>` can be assumed true, only the context of `<answer>` needs to be validated for correctness.
+Your goal is to judge whether the information presented in `<answer>` is in fact the correct answer to the `<question>` given the information in the <context> and whether the `<explanation>` for why the answer is correct is valid. The information in <context> and `<question>` can be assumed true, only the context of `<answer>` needs to be validated for correctness.
 
 ### Metrics
 
-1. **Answer Correctness:** Rate from 1 to 10 how correct the provided student answer is given the information in the `<question>` and `<context>`. A rating of 1 indicates the answer is incorrect. A rating of 10 indicates the answer is correct and complete. 
+1. **Answer Correctness:** Rate from 1 to 10 how correct the provided student answer is given the information in the `<question>` and <context>. A rating of 1 indicates the answer is incorrect. A rating of 10 indicates the answer is correct and complete. 
 
 2. **Explanation Validity:** Rate from 1 to 10 how valid the students `<explanation>` of their answer is. The `<explanation>` should explain their thinking and the information used to determine the correct answer given the context and question. Low ratings indicate the explanation is not valid, correct, or that there is some flaw in the thinking or logic of the student. High ratings indicate the explanation is valid, correct, and explains why the answer is what it is. 
 
@@ -142,6 +143,7 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 
 - Each "thought_process" should reflect careful consideration and reasoning behind your ratings.
 - Ensure rigorous adherence to output formatting.
+- If either the question or answer is missing, rate the answer correctness and explanation validity as 1.
 
 
 <question>{question}</question>
@@ -182,7 +184,7 @@ Your input consists of:
 
 ## Primary Objective
 
-You will be evaluating and judging the alignment of test and evaluation of questions across a variety of metrics. Your goal is to judge how semantically similar `<question1>` is to `<question2>` and how semantically similar `<answer1>` is to `<answer2>`. The questions and answers might be written differently, but they should receive high ratings if the contain the same information. Both questions and their answers are drawn from the `<context>`.
+You will be evaluating and judging the alignment of test and evaluation of questions across a variety of metrics. Your goal is to judge how semantically similar `<question1>` is to `<question2>` and how semantically similar `<answer1>` is to `<answer2>`. The questions and answers might be written differently, but they should receive high ratings if the contain the same information. Both questions and their answers are drawn from the <context>. Comparisons against missing output should be rated as 1.
 
 ### Metrics
 
@@ -226,6 +228,68 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 """
 
 
+QUESTION_VALIDITY_PROMPT = """
+## Your Role
+
+You are an expert evaluator of educational content. Your goal is to produce meaningful, insightful knowledge about domain expert evaluations designed to determine competence and knowledge. 
+
+## Input Structure
+
+Your input consists of:
+
+<question>
+[A question to be answered.]
+</question>
+
+<answer>
+[The correct answer to the question.]
+</answer>
+
+<context>
+[The grounding context the answer should be drawn from.]
+</context>
+
+## Primary Objective
+
+You are to evaluate whether the question appears complete, or whether it appears to be missing information or is otherwise incomplete (i.e. truncated). If the question relies on information only contained in the <context> is is incomplete becuase the question will be asked in isolation without the <context>.
+You are to evaluate whether the answer appears complete, or whether it appears to be missing information or is otherwise incomplete (i.e. truncated). 
+
+## Analysis Phase
+
+Conduct careful analysis within `<document_analysis>` tags, following these steps:
+
+1. **Thoughtful Content Examination**
+   - Carefully analyze the given question, answer, and context, identifying central ideas, nuanced themes, and significant relationships within it.
+
+2. **Concept Exploration**
+   - Consider implicit assumptions, subtle details, underlying theories, and potential applications of the provided question and answer.
+
+3. **Completeness Evaluation**
+   - Evaluate whether the question appears complete, or whether it appears to be missing information or is otherwise incomplete (i.e. truncated).
+   - Evaluate whether the answer appears complete, or whether it appears to be missing information or is otherwise incomplete (i.e. truncated). Don't consider a lack of derivation of a correct answer to be missing information. Showing your work for the answer is not required.
+
+## Output Structure
+
+Present your final output strictly adhering the `<output_format>` tags.
+<output_format>
+Question Completeness: [ Question Completeness Rating (one of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] ) ]
+Answer Completeness: [ Answer Completeness Rating (one of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] ) ]
+</output_format>
+
+## Output
+
+Begin by thoughtfully analyzing the provided context within `<document_analysis>` tags. Then present the resulting formatted output clearly within `<output_format>` tags.
+
+## Important Notes
+
+- Each "thought_process" should reflect careful consideration and reasoning behind your ratings.
+- Ensure rigorous adherence to output formatting.
+
+
+<question>{question}</question>
+<answer>{answer}</answer>
+"""
+
 
 
 META_PROPERTIES_PROMPT = """
@@ -251,15 +315,15 @@ Your input consists of:
 
 ## Primary Objective
 
-You will be evaluating and judging the quality of test and evaluation questions across a variety of metrics. Your goal is to judge and evaluate the quality of various test and evaluation questions across a variety of metrics. The `<question>` and `<answer>` pair is grounded and drawn from the `<context>`. 
+You will be evaluating and judging the quality of test and evaluation questions across a variety of metrics. Your goal is to judge and evaluate the quality of various test and evaluation questions across a variety of metrics. The `<question>` and `<answer>` pair is grounded and drawn from the <context>. 
 
 ### Metrics
 
-1. **Clarity:** Rate from 1 to 10 the clarity and comprehensibility (how understandable it is) of the provided `<question>`. A rating of 1 is unclear and cannot be understood or cannot be understood without the `<context>`. A rating of 10 is used for questions that are self contained, understandable, and coherent (even if the topic is complex and difficult). Questions that are missing information required to understand what is being asked rate a 1. "As of the 2015 NFL season, how many Super Bowl titles had the Denver Broncos won?" is a 10. "What event in 1861 contributed to the temporary strength of republicanism in Britain during Queen Victoria's reign?" is a 10. "In which year was the country not a member of FIFA, as indicated in the table?" is a 1. "As of the census of 2000, how many families were residing in the city?" is a 1.
+1. **Clarity:** Rate from 1 to 10 the clarity and comprehensibility (how understandable it is) of the provided `<question>`. A rating of 1 is unclear and cannot be understood or cannot be understood without the <context>. A rating of 10 is used for questions that are self contained, understandable, and coherent (even if the topic is complex and difficult). Questions that are missing information required to understand what is being asked rate a 1. "As of the 2015 NFL season, how many Super Bowl titles had the Denver Broncos won?" is a 10. "What event in 1861 contributed to the temporary strength of republicanism in Britain during Queen Victoria's reign?" is a 10. "In which year was the country not a member of FIFA, as indicated in the table?" is a 1. "As of the census of 2000, how many families were residing in the city?" is a 1.
 
 2. **Difficulty:** Rate form 1 to 10 the difficulty of the `<question>`. A rating of 10 is reserved for questions which require a deep understanding of the question and what is being asked by a professional domain expert. 
 
-3. **Groundedness:** Rate form 1 to 10 how grounded the provided `<question>` is in the `<context>`. A rating of 10 requires the question and answer information can found within the `<context>`. A rating of 1 indicates the question and answer information is not present in the `<context>`. This metric is only concerned with information found in the `<context>`, not outside information. The more outside information (not contained in the `<context>`) that is required to answer the question, the lower the rating.
+3. **Groundedness:** Rate form 1 to 10 how grounded the provided `<question>` is in the <context>. A rating of 10 requires that all information in the question and answer be explictly found within the <context>. A rating of 1 indicates the question and answer information is not present in the <context>. This metric is only concerned with information found in the <context>, not outside information. The more outside information (not contained in the <context>) that is required to answer the question, the lower the rating. If the information contained in the answer is not present in <context> the score can be no higher than 4.
 
 ## Analysis Phase
 
@@ -282,7 +346,7 @@ Groundedness: [ Groundedness Rating (one of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] ) ]
 
 ## Output
 
-Begin by thoughtfully analyzing the provided context within `<document_analysis>` tags. Then present the resulting formatted question answer pair clearly within `<output_format>` tags.
+Begin by thoughtfully analyzing the provided context within `<document_analysis>` tags. Then present the resulting formatted output clearly within `<output_format>` tags.
 
 ## Important Notes
 
@@ -321,7 +385,7 @@ Your input consists of:
 
 ## Primary Objective
 
-Your goal is to reformat, rephrase, and rewrite the question and answer pair according to the provided instructions. The rewritten question should be semantically equivalent to the original question, rewritten for clarity. The rewritten answer should be semantically equivalent to the original answer.
+Your goal is to reformat, rephrase, and rewrite the question and answer pair according to the provided instructions. The rewritten question should be semantically equivalent and identical to the original question, rewritten for clarity. The rewritten answer should be semantically equivalent and identical to the original answer. Do not add any additional details to the question or answer that were not present in the original question or answer.
 
 ## Analysis Phase
 
@@ -356,20 +420,6 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 - **Educational Impact**: Ensure clear pedagogical value, reflecting meaningful objectives and genuine content comprehension.
 - **Conversational Tone**: Formulate engaging, natural, and realistic questions appropriate to the instructional guidelines.
 
-### Permitted Question Types:
-
-- Analytical
-- Application-based
-- Clarification
-- Counterfactual
-- Conceptual
-- Factual
-- Open-ended
-- False-premise
-- Edge-case
-
-(You do not need to use every question type, only those naturally fitting the content and instructions.)
-
 ## Output Structure
 
 Present your final output strictly adhering the `<output_format>` tags.
@@ -394,7 +444,6 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 - Ensure complexity and depth reflect thoughtful moderation as guided by the additional instructions.
 - Each "thought_process" should reflect careful consideration and reasoning behind your question generation.
 - When generating questions, NEVER include phrases like 'as per the text,' 'according to the document,' or any similar explicit references. Questions should inherently integrate content naturally and stand independently without explicit references to the source material. Make sure that the question is answerable by a domain expert **without the context paragraph**. 
-- Include all relevant context information in the question. Make the question as long and detailed as required so that the test taker can fully understand what is being asked.
 - Do not include answer information in the question. 
 - Ensure rigorous adherence to output formatting and generate a single `<output_format>` tag block.
 - Ensure that all four answer options are distinct. 
@@ -425,8 +474,8 @@ Your input consists of:
 
 ## Primary Objective
 
-Your goal is to generate a list of all relevant topics, facts, or information that should be included in an examination to evaluate how well a professional domain expert understands the `<context>`. 
-The topics should encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency.
+Your goal is to generate a list of all relevant topics, facts, or information that should be included in an examination to evaluate how well a professional domain expert understands the <context>. 
+The topics should encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency. Make the question topics are difficult as possible. Don't include topics which produce easy questions. 
 
 ## Analysis Phase
 
@@ -453,8 +502,8 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 
 ### Decision Criteria for Question Generation:
 
-- **Meaningful Content Requirement:** Only generate question topics if the provided `<context>` contains meaningful, coherent, and educationally valuable content.
-- **Complete Irrelevance:** If the entire `<context>` consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
+- **Meaningful Content Requirement:** Only generate question topics if the provided <context> contains meaningful, coherent, and educationally valuable content.
+- **Complete Irrelevance:** If the entire <context> consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
 
 ### Documentation in Analysis:
 
@@ -492,9 +541,10 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 - Maintain clear, direct, and accurate citations/explanations drawn verbatim from the provided context.
 - Ensure complexity and depth reflect thoughtful moderation as guided by the additional instructions.
 - Each "thought_process" should reflect careful consideration and reasoning behind your question topic generation.
-- Ensure rigorous adherence to output formatting.
+- Don't include overly simply or easy to answer topics, strive for topics which require a deep understanding of the content by a professional domain expert.
 - Get as detailed as required to fully cover the information present in the context.
 - The topic response should be a single sentence that fully describes the topic.
+- Ensure rigorous adherence to output formatting.
 
 
 <context>{context}</context>
@@ -524,7 +574,7 @@ Your input consists of:
 
 ## Primary Objective
 
-Your goal is to generate a single highly insightful and probing question-answer pair from the single provided `<context>`. Aim for highly technical understanding to probe domain expert knowledge about the `<context>`. The question needs to encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency. Constructed questions must be highly challenging to even the smartest domain experts.
+Your goal is to generate a single highly insightful and probing question-answer pair from the single provided <context>. Aim for highly technical understanding to probe domain expert knowledge about the <context>. The question needs to encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency. Constructed questions must be highly challenging to even the smartest domain experts.
 
 ## Analysis Phase
 
@@ -551,8 +601,8 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 
 ### Decision Criteria for Question Generation:
 
-- **Meaningful Content Requirement:** Only generate questions if the provided `<context>` contains meaningful, coherent, and educationally valuable content.
-- **Complete Irrelevance:** If the entire `<context>` consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
+- **Meaningful Content Requirement:** Only generate questions if the provided <context> contains meaningful, coherent, and educationally valuable content.
+- **Complete Irrelevance:** If the entire <context> consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
 
 ### Documentation in Analysis:
 
@@ -627,11 +677,6 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 <question_topic>{topic}</question_topic>
 <context>{context}</context>
 """
-# - Ensure complexity and depth reflect thoughtful moderation as guided by the additional instructions.
-
-
-
-
 
 
 # citation https://github.com/sumukshashidhar/yourbench
@@ -655,11 +700,11 @@ Your input consists of:
 
 ## Primary Objective
 
-Your goal is to generate a single highly insightful and probing question-answer pair from the single provided `<context>`. Aim for highly technical understanding to probe domain expert knowledge about the `<context>`. The question needs to encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency. Constructed questions must be highly challenging to even the smartest domain experts.
+Your goal is to generate a single highly insightful and probing question-answer pair from the single provided <context>. Aim for highly technical understanding to probe domain expert knowledge about the <context>. The question needs to encourage a deep engagement with the content, critically reflect on implications, and clearly demonstrate understanding and competency. Constructed questions must be highly challenging. You can create questions which require synthesis of multiple concepts and an understanding of the underlying principles from the source material. Questions should ask about a single core underlying idea. The questions should closely reflect the content of the <context> and not measure general knowledge. When asking about concepts it can be helpful to be specific rather than general. The information the answer asks for must be found within the <context>; a student with the <context> should be able to answer the question correctly. Your output will be graded on how well the question and answer asks about only information in the <context>
 
 ## Analysis Phase
 
-Conduct careful analysis within `<document_analysis>` tags, following these steps:
+Conduct careful analysis within <document_analysis> tags, following these steps:
 
 1. **Thoughtful Content Examination**
    - Carefully analyze the given context, identifying central ideas, nuanced themes, and significant relationships within it.
@@ -682,12 +727,12 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 
 ### Decision Criteria for Question Generation:
 
-- **Meaningful Content Requirement:** Only generate questions if the provided `<context>` contains meaningful, coherent, and educationally valuable content.
-- **Complete Irrelevance:** If the entire `<context>` consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
+- **Meaningful Content Requirement:** Only generate questions if the provided <context> contains meaningful, coherent, and educationally valuable content.
+- **Complete Irrelevance:** If the entire <context> consists exclusively of irrelevant, promotional, web navigation, footer, header, or non-informational text, explicitly state this in your analysis and do NOT produce any question-answer pairs.
 
 ### Documentation in Analysis:
 
-- Clearly document the rationale in the `<document_analysis>` tags when identifying irrelevant or bogus content, explaining your reasons for exclusion or inclusion decisions.
+- Clearly document the rationale in the <document_analysis> tags when identifying irrelevant or bogus content, explaining your reasons for exclusion or inclusion decisions.
 - Briefly justify any decision NOT to generate questions due to irrelevance or poor quality content.
 
 
@@ -696,14 +741,15 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 ### Encouraged Question Characteristics:
 
 - **Thoughtful Engagement**: Prioritize creating questions that inspire deeper thought and nuanced consideration.
-- **High Complexity**: Develop questions that challenge the domain expert, following the provided additional instructions.
-- **High Difficulty**: Ensure that the question is very difficult to answer correctly, even for the smartest domain experts.
-- **Generalizable**: The best questions require the synthesis of high level general understanding above and beyond the specific context.
+- **Challenging**: Develop questions that challenge the domain expert, following the provided additional instructions.
+- **Difficult**: Ensure that the question is difficult to answer correctly, even for the most knowledgeable domain experts.
+- **Generalization**: The best questions require the synthesis of high level general understanding above and beyond the specific context.
+- **Synthesis of Multiple Concepts**: Create questions which require synthesis of multiple concepts and an understanding of the underlying principles from the source material.
 - **Deep Understanding and Insight**: Ensure that the question and answers require a deep understanding of the content by a professional domain expert.
 - **Self-contained Clarity**: Questions and answers should contain sufficient context, clearly understandable independently of external references.
 - **Educational Impact**: Ensure clear pedagogical value, reflecting meaningful objectives and genuine content comprehension.
-- **Conversational Tone**: Formulate engaging, natural, and realistic questions appropriate to the instructional guidelines.
-- **Short and Factual**: Ensure that the question and answer are short and factual, and that the answer is a single phrase or sentence.
+- **Short and Factual**: Ensure that the answer is short, factual, and is a single phrase or sentence.
+- **Justifiable and Defensible Answer**: Ensure that your correct answer is completely justifiable and defensible from the context. It must never be incorrect based on the information in the context.
 
 ### Permitted Question Types:
 
@@ -720,12 +766,14 @@ Conduct careful analysis within `<document_analysis>` tags, following these step
 - Inference
 - Implication
 - Prediction
+- Synthesis
+- Instantiation
 
 (You do not need to use every question type, only those naturally fitting the content and instructions.)
 
 ## Output Structure
 
-Present your final output strictly adhering the `<output_format>` tags.
+Present your final output strictly adhering the <output_format> tags.
 <output_format>
 Question: [ Question Text ]
 Explanation: [Brief explanation of why the answer is correct]
@@ -734,7 +782,8 @@ Correct Answer: [Short answer]
 
 ## Output
 
-Begin by thoughtfully analyzing the provided context within `<document_analysis>` tags. Then present the resulting formatted question answer pair clearly within `<output_format>` tags.
+Begin by thoughtfully analyzing the provided context within <document_analysis> tags. Then present the resulting formatted question answer pair clearly within <output_format> tags.
+The Explanation output is not a part of the Correct Answer, it is a separate justification for why the correct answer is correct. Make sure the Correct Answer contains all the required information. 
 
 ## Important Notes
 
@@ -743,15 +792,23 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 - Each "thought_process" should reflect careful consideration and reasoning behind your question generation.
 - When generating questions, NEVER include phrases like 'as per the text,' 'according to the document,' or any similar explicit references. Questions should inherently integrate content naturally and stand independently without explicit references to the source material. Make sure that the question is answerable by a domain expert **without the context paragraph**. 
 - NEVER include information in the question that could give away the answer.
-- NEVER ask questions where the answer is obvious or apparent.
+- ALWAYS include an appropriate amount of information in the question without providing unnecessary detail (which could give away the answer).
+- NEVER ask questions where the answer is obvious, apparent, ambiguous, or circumspect.
+- NEVER ask questions where the answer is a minor restatement of the question. 
+- NEVER hint at the answer in the question.
+- NEVER include information not found in <context> in the answer. 
+- ALWAYS ask questions closely and directly tied to the <context>, do not measuring general knowledge.
+- ALWAYS ask questions which each contain a single knowledge element, avoid combining multiple topics.
+- ALWAYS prefer questions with a simple and direct answer, avoid complex multi-part answers or derivations.
+- ALWAYS write questions so that they are understandable without and make no reference to the <context>. 
+- The best questions have concise and clear answers.
 - Verify that the correct answer is in fact correct and the best version of that answer.
-- Ensure rigorous adherence to output formatting and generate a single `<output_format>` tag block.
+- Ensure rigorous adherence to output formatting and generate a single <output_format> tag block.
 
 
 <context>{context}</context>
 <question_topic>{topic}</question_topic>
 """
-# - Ensure complexity and depth reflect thoughtful moderation as guided by the additional instructions.
 
 
 QUESTION_REFORMAT_OPEN_PROMPT = """
@@ -777,7 +834,7 @@ Your input consists of:
 
 ## Primary Objective
 
-Your goal is to reformat, rephrase, and rewrite the question and answer pair according to the provided instructions. The rewritten question should be semantically equivalent to the original question, rewritten for clarity. The rewritten answer should be semantically equivalent to the original answer.
+Your goal is to reformat, rephrase, and rewrite the question and answer pair according to the provided instructions. The rewritten question should be semantically equivalent and identical to the original question, rewritten for clarity. The rewritten answer should be semantically equivalent and identical to the original answer. Do not add any additional details to the question or answer that were not present in the original question or answer.
 
 ## Analysis Phase
 
@@ -846,7 +903,6 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 - Ensure complexity and depth reflect thoughtful moderation as guided by the additional instructions.
 - Each "thought_process" should reflect careful consideration and reasoning behind your question generation.
 - When generating questions, NEVER include phrases like 'as per the text,' 'according to the document,' or any similar explicit references. Questions should inherently integrate content naturally and stand independently without explicit references to the source material. Make sure that the question is answerable by a domain expert **without the context paragraph**. 
-- Include all relevant context information in the question. Make the question as long and detailed as required so that the test taker can fully understand what is being asked.
 - Do not include answer information in the question. 
 - Ensure rigorous adherence to output formatting and generate a single `<output_format>` tag block.
 - Verify that the correct answer is in fact corrent and the best version of that answer.
@@ -854,7 +910,13 @@ Begin by thoughtfully analyzing the provided context within `<document_analysis>
 
 
 
+
 <context>{context}</context>
 <question>{question}</question>
 <answer>{answer}</answer>
 """
+
+
+
+
+

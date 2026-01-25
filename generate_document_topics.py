@@ -1,29 +1,25 @@
 import time
 
-from model_interface import SglModelAsync, SglModelSync
+from model_interface import SglModel
 import prompts
 import answer_parser
 
 
 
 def build_topic_prompt(context:str):
-    # By the end of the list, topics should require a very deep understanding of the content by a professional domain expert. 
-    # prompt = prompts.TOPIC_EXTRACT_PROMPT.format(context=context)
     prompt = prompts.TOPIC_EXTRACT_PROMPT.format(context=context)
     
     return prompt
 
-def extract_topics_per_context(contexts: list[str], remote:str, model:str = None, async_flag:bool=False) -> list[list[str]]:
+def extract_topics_per_context(contexts: list[str], remote:str, model_name:str = None, async_flag:bool=False):
 
-    if async_flag:
-        model = SglModelAsync(remote=remote, model=model)
-    else:
-        model = SglModelSync(remote=remote, model=model)
+    
+    model = SglModel(remote=remote, model=model_name, sync_flag=(not async_flag))
 
     start_time = time.time()
     prompts = [build_topic_prompt(c) for c in contexts]
     
-    results, _ = model.generate(prompts)
+    results, _ = model.generate(prompts, reasoning_effort="medium")
     total_time = time.time() - start_time
     topic_extraction_responses = []
 
@@ -40,8 +36,8 @@ def extract_topics_per_context(contexts: list[str], remote:str, model:str = None
     topics_list = []
     for i in range(len(contexts)):
         if results[i]['error'] is not None:
-            print(results[i]['error'])
-            exit(1)
+            topics_list.append([])
+            continue
         
         vals = answer_parser.parse_topic_extraction(results[i]['content'])
         topic_extraction_responses.append(results[i]['content'])

@@ -65,7 +65,7 @@ def remove_empty_logs(fp: str):
             if 'results' not in data:
                 os.remove(fn)
 
-def get_completed_logs(fp: str) -> list[dict]:
+def get_completed_logs(fp: str):
     import os
     import json
     if not os.path.exists(fp):
@@ -85,17 +85,3 @@ def get_completed_logs(fp: str) -> list[dict]:
             os.remove(fn)
     return completed_logs, completed_fns
 
-# def is_copmleted(log_fp: str, model: str, dataset: str) -> bool:
-#     import os
-#     import json
-#     fns = [os.path.join(log_fp, fn) for fn in os.listdir(log_fp) if fn.endswith('.json')]
-#     fns = [fn for fn in fns if dataset in fn]
-#     fns.sort()
-#     for fn in fns:
-#         with open(fn, 'r') as f:
-#             log = json.load(f)
-#             log = log['eval']
-#         if 'results' in log:
-#             if log['model'] == model and log['dataset']['name'] == dataset:
-#                 return True
-#     return False

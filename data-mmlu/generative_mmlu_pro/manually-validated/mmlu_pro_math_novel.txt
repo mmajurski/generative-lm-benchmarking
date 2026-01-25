@@ -1,0 +1,81 @@
+================================================================================
+Question1: Derive the exact formula that relates a substance’s half‑life \(t_{½}\) to its decay constant \(\lambda\); then, using the half‑life of 2.045 minutes for one substance and the half‑life (to the nearest hour) of a drug that loses about 30 % of its amount each hour, compute \(\lambda\) for each, state which substance decays faster, and explain why \(\lambda\) is the appropriate parameter for continuous exponential decay while half‑life describes a discrete halving interval.
+Answer: λ = ln 2 / t½; λ≈0.339 min⁻¹ for t½ = 2.045 min and λ≈0.0058 min⁻¹ (≈0.347 h⁻¹) for the drug’s ≈2‑h half‑life, so the 2.045‑min substance decays faster; λ is the continuous decay constant, while half‑life is a discrete halving interval.
+Human Evaluation: Correct and Unsupported because the context does not include the decay-constant/half-life relationship.
+
+Question2: Describe a complete step-by-step algorithm for solving a radical equation that contains more than one distinct radical, and explain why performing the elimination steps in any order yields the same set of true solutions (though it may introduce different extraneous roots).
+Answer: Repeatedly isolate a radical, raise both sides to its index to eliminate it, continue until all radicals are removed, solve the resulting polynomial, and discard any extraneous solutions; because each elimination is algebraically equivalent, the true solutions are independent of the order of elimination.
+Human Evaluation: Correct and Supported
+
+Question3: When revenue and cost are each modeled by quadratic functions, how can you determine the interval(s) where profit occurs using the graphing method for nonlinear inequalities, and how does the presence of multiple breakeven (intersection) points affect this determination?
+Answer: Profit intervals are the regions between breakeven points where the revenue parabola is above the cost parabola, identified by testing a point in each interval.
+Human Evaluation: Correct and Supported
+
+Question4: Describe the inductive argument that extends the product rule for logarithms from two factors to an arbitrary product of \(n\) positive terms, and state the resulting general formula.
+Answer: Assuming \(\log_b(\prod_{i=1}^{k}a_i)=\sum_{i=1}^{k}\log_b(a_i)\), apply the product rule to \(\log_b(\prod_{i=1}^{k}a_i\cdot a_{k+1})\) to get \(\log_b(\prod_{i=1}^{k+1}a_i)=\sum_{i=1}^{k+1}\log_b(a_i)\); thus, by induction, \(\log_b\!\big(\prod_{i=1}^{n}a_i\big)=\sum_{i=1}^{n}\log_b(a_i)\) for all \(n\).
+Human Evaluation: Correct and Supported
+
+Question5: How does an incorrect sign in either the outer or inner FOIL product affect the coefficients of the expanded polynomial, and what systematic method can be used to detect such a sign error by comparing the resulting polynomial’s middle coefficient with the expected pattern for perfect‑square or difference‑of‑squares products?
+Answer: It creates an unexpected middle coefficient; detect it by checking whether the middle coefficient matches the pattern (zero for difference of squares, 2ab for perfect squares) and flagging any mismatch.
+Human Evaluation: Correct and Supported
+
+Question6: If a new immigration policy adds 3,000 residents to the town each year, how does the original linear population model change, and what population does the revised model predict for the year 2016?
+Answer: P(t)=55,000 + 13,500·(t−2010), so P(2016)=136,000.
+Human Evaluation: Incorrect and Supported because the question leaves out information from the context required to answer it.
+
+Question7: Construct a rational equation that, after multiplying by its least common denominator, yields an algebraic solution which is exactly an excluded value, and explain why this equation has no real solution despite the apparent solution.
+Answer: (x−1)/(x−1)=2; the only solution x=1 is excluded because it zeroes the denominator, so there is no real solution.
+Human Evaluation: Incorrect and Supported, because the provided answer is one possible answer of many.
+
+Question8: Using only the properties of exponential functions presented in the passage—specifically that the exponential function is one‑to‑one, strictly monotonic, and continuous—prove that for any base \(b>0\) with \(b\neq1\) and any positive number \(k\), the equation \(b^{x}=k\) possesses exactly one real solution.
+Answer: Because \(b^{x}\) is continuous and strictly monotonic on \(\mathbb{R}\), it takes each positive value exactly once, guaranteeing a unique real solution \(x=\log_{b}(k)\) to \(b^{x}=k\).
+Human Evaluation: Correct and Supported
+
+Question9: If the 96‑ft × 46‑ft whispering chamber is modeled as a horizontal ellipse with center at the origin, semi‑major axis \(a=48\) ft and semi‑minor axis \(b=23\) ft, but the equation is mistakenly written with the major‑axis denominator under the \(y\)-term (i.e., \(\frac{x^{2}}{23^{2}}+\frac{y^{2}}{48^{2}}=1\)), what are the coordinates of the resulting vertices and foci?
+Answer: Vertices at (0, ±48) and foci at (0, ±√1775) ≈ (0, ±42.1)
+Human Evaluation: Correct and Supported
+
+Question10: Given the parent logarithmic function \(y=\log_b(x)\) with \(b>0,\;b\neq1\), reflect it about the y‑axis to obtain \(y=\log_b(-x)\). Prove that the domain of this reflected function is \((-\infty,0)\). Then, if the reflected graph is shifted horizontally \(h\) units to the right, producing \(y=\log_b\!\big(-(x-h)\big)\), determine the condition on \(h\) that guarantees the argument of the logarithm remains positive for all admissible \(x\), and state the resulting domain in terms of \(h\).
+Answer: Domain after reflection: \((-\infty,0)\); after a rightward shift by \(h\), the domain is \((-\infty,\,h)\) because \(-(x-h)>0\) implies \(x<h\).
+Human Evaluation: Correct and Supported
+
+Question11: For the hyperbola \(\frac{(x-3)^{2}}{16}-\frac{(y+2)^{2}}{9}=1\), determine its center, the coordinates of its vertices and co‑vertices, the coordinates of its foci, and write the equations of its asymptotes. Then explain how translating the standard hyperbola \(\frac{x^{2}}{16}-\frac{y^{2}}{9}=1\) to this position changes each of these elements.
+Answer: Center (3, -2); vertices (7, -2) and (‑1, -2); co‑vertices (3, 1) and (3, ‑5); foci (8, -2) and (‑2, -2); asymptotes \(y+2=±\frac{3}{4}(x-3)\); translation shifts each feature of the origin‑centered hyperbola by (3, ‑2) while preserving asymptote slopes.
+Human Evaluation: Correct and Supported
+
+Question12: When determining the leading coefficient of a rational function from its graph by substituting a clear non‑intercept point such as the y‑intercept, what specific issue arises if that point corresponds to a removable discontinuity (hole), and how should the coefficient be correctly obtained in that situation?
+Answer: A hole means the function isn’t defined there, so the y‑intercept cannot be used; instead, use another defined point or the limit at the hole to solve for the constant.
+Human Evaluation: Correct and Supported
+
+Question13: Given a nonzero vector a that defines a direction, describe how to decompose any vector v into a component parallel to a and a component perpendicular to a using unit vectors, and prove that these two components are orthogonal.
+Answer: The parallel component is (v·û)û, the perpendicular component is v − (v·û)û, and their dot product equals zero, proving orthogonality.
+Human Evaluation: Correct and Supported
+
+Question14: Formulate a systematic procedure for solving a general quadratic‑in‑sine (or cosine) equation such as a sin²θ + b sinθ + c = 0, and for each algebraic step explain how the periodicity of the sine (or cosine) function determines the complete set of solutions.
+Answer: Solve a sin²θ + b sinθ + c = 0 by letting x = sinθ, applying the quadratic formula to obtain admissible roots r (|r|≤1), then write θ = arcsin r + 2πk or θ = π − arcsin r + 2πk (k∈ℤ); for a cosine quadratic replace sinθ with cosθ and use θ = arccos r + 2πk or θ = −arccos r + 2πk, where the added 2πk reflects the sine and cosine period.
+Human Evaluation: Correct and Supported
+
+Question15: A semi‑elliptical arch spans 40 ft and rises 12 ft at its center. Derive the equation of the full ellipse in standard form, then determine the arch’s height at a point 10 ft horizontally from the center, and finally find the slope of the arch at that point using implicit differentiation.
+Answer: x²/400 + y²/144 = 1, y≈10.39 ft at x=10 ft, and dy/dx≈−0.35
+Human Evaluation: Correct and Supported
+
+Question16: What essential procedure must be followed to determine the domain of a function defined implicitly by an equation in x and y, ensuring that only those real x values that yield real y solutions are included?
+Answer: Solve for y, then exclude any x‑values that make denominators zero or radicands negative; the remaining real x values form the domain.
+Human Evaluation: Correct and Supported
+
+Question17: Given a fully labeled graph of a rational function that shows all x‑intercepts (with their multiplicities), all vertical asymptotes (with their multiplicities), any holes, the horizontal (or slant) asymptote, and one additional point that is not an intercept, outline the complete algorithm for constructing the simplest rational function in factored form that reproduces the graph, and explain why this algorithm is guaranteed to yield the correct function.
+Answer: Form the numerator from the x‑intercepts (with multiplicities) and any hole factors, form the denominator from the vertical asymptotes (with multiplicities) and the same hole factors, determine the leading constant using the horizontal/slant asymptote or the given extra point, then cancel common factors to obtain the simplest factored rational function.
+Human Evaluation: Correct and Supported
+
+Question18: Derive the complex‑number expression that maps a point z to its image after a rotation of angle θ about the origin, and then give the corresponding expression for a rotation of z about an arbitrary point a.
+Answer: z' = z·(cos θ + i sin θ); about a: z' = a + (z − a)·(cos θ + i sin θ).
+Human Evaluation: Correct and Unsupported because the context does not contain the rotation mapping formulas. 
+
+Question19: When reconstructing the equation y = A sec(Bx) from its graph that shows vertical asymptotes, local extrema, and a known point (x₀, y₀), what steps determine the horizontal scaling factor B and the vertical stretch A, and how is the sign ambiguity of A resolved?
+Answer: Find B from asymptote spacing (B = π / spacing), compute A = y₀ / sec(Bx₀), and choose the sign of A based on whether the branches open upward (positive) or downward (negative) relative to the asymptotes.
+Human Evaluation: Correct and Supported
+
+Question20: What condition must a sequence (even with missing or ambiguous terms) satisfy to be arithmetic, and how can higher‑order differences be used to verify this condition?
+Answer: All consecutive differences are equal (i.e., the first differences are constant, making second differences zero).
+Human Evaluation: Correct and Supported
+

@@ -1,0 +1,81 @@
+================================================================================
+Question1: Which two epigenetic modifications described must be reversed to convert a tightly packed, transcriptionally silent chromatin region into an open, transcriptionally active state?
+Answer: DNA methylation and histone deacetylation
+Human Evaluation: Correct and Supported
+
+Question2: Why does natural selection alone fail to shift a beach‑mouse population from a light to a dark coat given the maladaptive intermediate phenotype, and which two evolutionary processes described in the passage could nonetheless allow the population to acquire the dark phenotype despite this fitness valley?
+Answer: Selection cannot cross the valley because the intermediate coat is strongly selected against; genetic drift can randomly fix the intermediate and gene flow can import dark alleles, allowing the shift.
+Human Evaluation: Correct and Supported
+
+Question3: Which cellular process eliminates the inter‑digit cells during vertebrate limb development, and what congenital abnormality would likely result if this process fails?
+Answer: Apoptosis; resulting in webbed or fused digits (syndactyly)
+Human Evaluation: Correct and Supported
+
+Question4: How does an increase in plasma potassium concentration influence aldosterone synthesis, and in what way does aldosterone’s simultaneous promotion of potassium secretion and sodium reabsorption work together to preserve overall electrolyte balance?
+Answer: High plasma K⁺ triggers aldosterone secretion, which increases K⁺ excretion and Na⁺ reabsorption, restoring electrolyte balance.
+Human Evaluation: Correct and Supported
+
+Question5: If the proportion of white‑footed mice in the host community increases relative to deer, how would the basic reproductive number (R₀) of *Borrelia burgdorferi* be expected to change, and what ecosystem‑based management action would most directly lower that R₀?
+Answer: R₀ would increase; decreasing mouse abundance or increasing deer abundance would lower R₀.
+Human Evaluation: Correct and Unsupported because the context links host type to infection probability, but it does not specify that reducing mice or increasing deer is the recommended/most direct management lever to lower R₀.
+
+Question6: Which neurobiological deficit underlies the “incorrect wiring” hypothesis of autism spectrum disorder, and name two characteristic behavioral symptoms that reflect this deficit?
+Answer: Reduced synaptic pruning, leading to impaired social skills and repetitive motor behaviors.
+Human Evaluation: Correct and Supported
+
+Question7: Explain why the discovery of a double‑layered membrane core by transmission electron microscopy in the 1950s caused the Davson‑Danielli sandwich model to be abandoned in favor of the fluid‑mosaic model’s bilayer framework.
+Answer: Because TEM revealed a double‑layered core, contradicting the single‑layer sandwich and supporting a bilayer.
+Human Evaluation: Correct and Supported
+
+Question8: How do disturbance‑driven alterations in trophic level composition create feedback that influences whether an ecosystem moves toward or away from equilibrium, and which modeling approach is described as most capable of capturing this dynamic?
+Answer: Disturbances alter trophic composition, changing energy flow and moving the system away from equilibrium, and individual‑based supercomputer simulations best capture this feedback.
+Human Evaluation: Correct and Supported
+
+Question9: Based on the passage, what proportion of plasma oncotic pressure is contributed by albumin compared with other serum proteins such as immunoglobulins, and which clinical event described illustrates a disruption of this protein balance?
+Answer: Albumin supplies roughly half of the oncotic pressure, the rest coming from other proteins such as immunoglobulins; ABO‑incompatible transfusion causing agglutination and kidney failure disrupts this balance.
+Human Evaluation: Correct and Supported
+
+Question10: How did the adoption of photosynthesis by prokaryotes in early microbial mats alter the selective pressures they faced compared to their earlier reliance on hydrothermal‑vent chemicals?
+Answer: It introduced sunlight as a widely available energy source, reducing reliance on vent chemicals and expanding ecological opportunities for prokaryotes.
+Human Evaluation: Correct and Supported
+
+Question11: How do the rhythmic contractions of smooth muscle, the action of skeletal muscle, and the function of lymph vessels together maintain interstitial fluid balance when fluid leaks from blood vessels?
+Answer: Smooth-1muscle contractions drive blood flow, skeletal-muscle activity assists venous return, and lymph vessels collect leaked fluid, filter it in lymph nodes, and return it to the heart, together preventing edema.
+Human Evaluation: Correct and Supported
+
+Question12: Why does the indeterminate (radial regulative) cleavage characteristic of deuterostomes make cloning theoretically possible, whereas the determinate (spiral mosaic) cleavage of protostomes hinders such cloning efforts?
+Answer: Because indeterminate cleavage keeps early cells totipotent, enabling them to form a whole organism, while determinate cleavage fixes cell fates early, eliminating that totipotency.
+Human Evaluation: Correct and Supported
+
+Question13: If a savanna region experiences a decrease in mean annual precipitation to less than 10 cm and an increase in average temperature to above 30 °C, into which biome would it most likely transition?
+Answer: Subtropical desert.
+Human Evaluation: Correct and Supported
+
+Question14: Considering the dual origins of eukaryotic cellular components described, which specific molecular incompatibility would most likely obstruct a synthetic attempt to recapitulate a stepwise endosymbiotic integration between a modern alphaproteobacterium and an archaeal‑like host cell?
+Answer: Incompatibility between bacterial‑derived mitochondrial gene expression mechanisms and the host’s archaeal‑like nuclear replication and transcription system.
+Human Evaluation: Correct and Supported
+
+Question15: According to the passage, how do the hydrogen‑bonding interactions in parallel and antiparallel β‑pleated sheets compare, and does the text indicate any difference in mechanical strength or aggregation propensity between these arrangements?
+Answer: Both are stabilized by the same hydrogen bonds between amino‑hydrogen and carbonyl‑oxygen, and the passage does not provide any information on differences in mechanical strength or aggregation propensity.
+Human Evaluation: Correct and Supported, but Degenerate since the answer references the context.
+
+Question16: How does the reciprocal positioning of anthers and stigmas in pin‑ and thrum‑type primrose flowers mechanically prevent self‑pollination, and what genetic outcome would likely result if this heterostylous arrangement were lost?
+Answer: The reciprocal organ placement forces pollinators to move pollen between morphs, preventing self‑pollination, and if it breaks down self‑pollination increases, causing a decline in genetic diversity.
+Human Evaluation: Correct and Supported
+
+Question17: Which experimental measurement would directly test whether the pairing loop formed by a pericentric inversion suppresses crossovers, and what specific recombination frequency value would confirm perfect linkage within the inverted region?
+Answer: Measure recombination frequency between markers inside the inversion; a frequency of 0 confirms perfect linkage.
+Human Evaluation: Correct and Supported
+
+Question18: Which two fundamental biological processes, identified as being disrupted by climate change in the passage, must any assisted‑evolution strategy for corals address to mitigate projected declines?
+Answer: Preserving the symbiotic algae relationship and sustaining calcium carbonate calcification.
+Human Evaluation: Correct and Supported, but Degenerate since the question mentions the context.
+
+Question19: According to the passage, what combined effect of oncogene mutations and avoidance of extracellular‑matrix‑detachment‑induced apoptosis allows tumor cells to disseminate as metastases?
+Answer: Uncontrolled proliferation driven by oncogene mutations together with evasion of matrix‑detachment‑triggered apoptosis (anoikis) enables metastatic dissemination.
+Human Evaluation: Correct and Supported, but Degenerate as the question mentions the passage in a non-destructive manner. 
+
+Question20: Explain how the specific functional groups of amino acids enable peptide‑bond formation through dehydration synthesis during translation, and how this directional chemistry determines which end of the nascent polypeptide becomes the N‑terminus and which becomes the C‑terminus.
+Answer: A peptide bond forms when the carboxyl group of one amino acid reacts with the amino group of the next in a dehydration synthesis, releasing water; this creates a chain whose free amino end is the N‑terminus and whose free carboxyl end is the C‑terminus.
+Human Evaluation: Correct and Supported
+

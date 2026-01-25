@@ -1,0 +1,81 @@
+================================================================================
+Question1: Design an intervention for adolescents that simultaneously cultivates the ability to form intimate relationships and exploits their formal operational thinking; which two developmental tasks should the program target, and what single pedagogical activity best integrates both tasks?
+Answer: Target Erikson’s intimacy vs. isolation and Piaget’s formal operational stage with a collaborative abstract‑reasoning problem‑solving workshop.
+Human Evaluation: Incorrect and Supported because the context outlines Intimacy vs. isolation as a young-adult (19-29) task not adolescence. 
+
+Question2: If you were to design a randomized controlled trial to test whether adding Rogersian active‑listening techniques to standard CBT for major depressive disorder improves both treatment retention and depressive symptom reduction, which specific primary outcomes, control condition, and potential confounding variables should be selected based on the evidence presented?
+Answer: Primary outcomes: depressive symptom reduction and treatment retention; control: standard CBT without active‑listening; confounds: therapist‑client relationship quality, therapist experience, patient values/culture, and concurrent medication use.
+Human Evaluation: Correct and Supported
+
+Question3: How does viewing Erikson’s generativity versus stagnation period as a psychosocial task rather than a fixed stage shape the approach to designing interventions for middle‑aged adults?
+Answer: By focusing on activities that promote contribution and productivity (e.g., volunteering, mentoring) to resolve the generativity conflict.
+Human Evaluation: Correct and Supported
+
+Question4: How does the cognitive function of a stereotype initiate an affective prejudice that then produces discriminatory behavior, as demonstrated by the Yankees‑fan example and by an empirical racism case described in the text?
+Answer: The stereotype that Yankees fans are arrogant provokes hostile feelings toward them, which leads to refusing to hire or befriend them, just as the stereotype that Black drivers are dangerous generates negative affect and results in disproportionate traffic stops.
+Human Evaluation: Incorrect and Supported because the negative results are not disproportionate traffic stops, but instead "Black people are significantly more likely to have their vehicles searched during traffic stops than White people". Additionally, this question mentions the context which is less than ideal.
+
+Question5: Considering that depression is only one of several negative emotional states that independently predict heart disease, and that a combined psychological risk factor predicts disease more strongly than any single emotion, what is a key limitation of the AHA’s recommendation to screen only for depression in cardiac patients?
+Answer: It may overlook other negative emotional traits (e.g., anxiety, hostility, anger) that also increase heart disease risk.
+Human Evaluation: Correct and Supported
+
+Question6: Which characteristic of Erikson’s definition of ego identity—emphasizing its socially driven, lifespan‑spanning development—makes it especially difficult for a static psychometric instrument to capture the construct accurately?
+Answer: Its dynamic, lifespan‑spanning nature.
+Human Evaluation: Correct and Supported but the question is Degenerate.
+
+Question7: Why does integrating the original job analysis into performance‑appraisal processes improve criterion‑related validity and procedural fairness while also reducing measurement error and bias?
+Answer: It provides objective, job‑specific criteria that align ratings with actual job duties, thereby boosting validity, ensuring fair procedures, and limiting subjective error and bias.
+Human Evaluation: Correct and Supported
+
+Question8: Based on the longitudinal risk‑factor matrix, how does the relative importance of family, peer, and community variables change across the three developmental stages (ages 10, 14, and 16) in predicting later violent behavior?
+Answer: At age 10, violence is most strongly linked to parental attitudes favoring violence, economic deprivation, drug availability, and peer delinquency; at age 14, risk shifts to poor family management, family conflict, peer delinquency, gang membership, community disorganization, and neighborhood adult crime; and at age 16, the primary predictors are poor family management, frequent moves, and gang membership.
+Human Evaluation: Correct and Supported
+
+Question9: Which physiological system, defined as a set of structures in the limbic and endocrine systems that regulate stress reactions through hormone release, is most likely to serve as a target for the stress‑buffering effects of optimism and perceived control?
+Answer: the hypothalamic‑pituitary‑adrenal (HPA) axis
+Human Evaluation: Correct and Supported
+
+Question10: What does the “piloting a helicopter in a hurricane” metaphor reveal about the therapist’s challenges and ethical responsibilities when counseling high‑conflict couples?
+Answer: It indicates the therapist must navigate an intensely turbulent therapeutic environment while ethically deciding whether to continue treatment or support the couple’s separation.
+Human Evaluation: Incorrect and Unsupported because the context metaphor refers to the therapist working in a **high-conflict, volatile, turbulent** therapeutic environment that is **difficult to manage**, akin to flying in extreme conditions (“piloting a helicopter in a hurricane”); but the question invented the ethical responsibility angle which is incorrect.
+
+Question11: What policy, as indicated by the passage, should be adopted to limit IQ test administration, and what are the three primary reasons supporting this restriction?
+Answer: Only qualified psychologists should be allowed to administer IQ tests, because they ensure test security, possess the interpretive expertise needed, and can prevent societal harms such as misuse for eugenic purposes.
+Human Evaluation: Correct and Supported, but semi-Degenerate as it references the context in a manner that doesn't completely ruin the question.
+
+Question12: In what way does the postformal stage construct risk cultural bias when applied to non‑Western societies, given Vygotsky’s view that development is shaped by cultural tools and historical context?
+Answer: It may impose a Western‑centric model that neglects the influence of culturally specific tools and historical context on adult cognition.
+Human Evaluation: Correct and Supported
+
+Question13: What integrated managerial approach that combines reverse mentoring, flexible scheduling, and individualized career development can simultaneously satisfy Millennials’ preference for work‑life balance and Generation X’s need for meaningful, purpose‑driven work?
+Answer: Implement a program that pairs younger staff with senior mentors for digital skill exchange, offers flexible work hours, and provides tailored development plans that link tasks to broader organizational purpose.
+Human Evaluation: Correct and Supported
+
+Question14: How do the memory and identity disturbances differ among dissociative amnesia, depersonalization/derealization disorder, and dissociative identity disorder as described in the text?
+Answer: Dissociative amnesia involves inability to recall important personal information, depersonalization/derealization disorder involves episodes of detachment from the self or world without separate identities, and dissociative identity disorder involves two or more distinct personalities and memory gaps for times when another identity is present.
+Human Evaluation: Correct and Supported
+
+Question15: What are the two principal obstacles that evolutionary psychologists face when trying to demonstrate that a human behavior is an adaptation, and what methodological strategy do they typically employ to infer adaptive significance despite these obstacles?
+Answer: The main obstacles are proving a genetic basis/natural selection and reconstructing past environments, and researchers address them by formulating evolutionary predictions and testing them empirically.
+Human Evaluation: Correct and Supported
+
+Question16: How do the inferior colliculus and medial geniculate nucleus differ in their position within the auditory processing pathway, and what does the passage indicate about their involvement in parallel streams for auditory recognition and sound localization?
+Answer: The inferior colliculus receives input first and passes it to the medial geniculate nucleus, and both are involved in parallel streams for auditory recognition and localization.
+Human Evaluation: Correct and Supported
+
+Question17: How does the progression from Galton’s original broad intelligence test to the multi‑index structure of modern IQ batteries, such as the WISC‑V, illustrate the evolving theoretical conception of intelligence, and what does the text indicate about whether these contemporary tests fully capture intelligence’s complexity?
+Answer: It shows a move from a single, broad measure to a multidimensional assessment of distinct cognitive abilities, yet the text notes that the adequacy of modern tests is still debated.
+Human Evaluation: Correct and Supported
+
+Question18: What fundamental distinction separates Freud’s focus on erogenous zones from Erikson’s emphasis on psychosocial tasks, and what does this reveal about each theorist’s conception of the primary forces driving development?
+Answer: Freud focuses on biological drives and erogenous zones, while Erikson focuses on social interactions and psychosocial tasks.
+Human Evaluation: Correct and Supported
+
+Question19: Which stress‑reduction technique defined in the context combines elements of relaxation and meditation, and could therefore be employed to support HPA‑axis regulation to prevent the transition from the stage of resistance to exhaustion in high‑stress occupations?
+Answer: Relaxation response
+Human Evaluation: Correct and Supported but Degenerate as the question references the context.
+
+Question20: Considering that the thalamus routes all sensory information except olfactory signals, what perceptual and behavioral consequences would arise from a thalamic lesion that spares the olfactory pathway?
+Answer: Loss of visual, auditory, somatosensory, and gustatory perception with preserved smell, leading to deficits in those sensory experiences and associated behaviors.
+Human Evaluation: Correct and Supported
+

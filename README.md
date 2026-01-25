@@ -29,8 +29,8 @@ The default model to generate questions and grade responses is openai/gpt-4.1-na
 ### Reformat the Squad Dataset into Questions
 
 ```shell
-python generate_reformat_mcq.py --out_dataset_dir=./data-tmp-mcq/ --sample_count=4
-python generate_reformat_open.py --out_dataset_dir=./data-tmp-oe/ --sample_count=4
+python generate_reformat_mcq.py --out_dataset_dir=./data-qa/ --sample_count=4
+python generate_reformat_open.py --out_dataset_dir=./data-qa/ --sample_count=4
 ```
 
 This reformats the human written questions in the Squad questions into a format containing all required information for an LM to use a stand alone benchmark.
@@ -39,8 +39,8 @@ This reformats the human written questions in the Squad questions into a format 
 ### Generate New Synthetic Questions from the Squad Dataset
 
 ```shell
-python generate_novel_mcq.py --out_dataset_dir=./data-tmp-mcq/ --sample_count=4
-python generate_novel_open.py --out_dataset_dir=./data-tmp-oe/ --sample_count=4
+python generate_novel_mcq.py --out_dataset_dir=./data-qa/ --sample_count=4
+python generate_novel_open.py --out_dataset_dir=./data-qa/ --sample_count=4
 ```
 
 This generates new synthetic questions based on the contexts in the Squad dataset, creating a standalone LM benchmark.
@@ -50,8 +50,8 @@ This generates new synthetic questions based on the contexts in the Squad datase
 ### Evalute Questionss
 
 ```shell
-python inspect_eval.py --dataset_fldr=./data-tmp-mcq/
-python inspect_eval_open.py --dataset_fldr=./data-tmp-oe/
+python inspect_eval.py --dataset_fldr=./data-qa/
+python inspect_eval_open.py --dataset_fldr=./data-qa/
 ```
 
 This will run the generated evaluation benchmarks against the LM under test.

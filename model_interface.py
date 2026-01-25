@@ -2,7 +2,6 @@ import os
 import httpx
 import openai
 import asyncio
-from openai import AsyncOpenAI
 import time
 import prompts
 
@@ -17,33 +16,12 @@ def translate_remote(remote:str) -> tuple[str, str]:
         port_num = int(port_num)
     else:
         port_num = 8443
-    if remote == "sierra":
-        url=f"https://pn131285.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "oscar":
-        url=f"https://pn131274.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "papa":
-        url=f"https://pn131275.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "echo":
-        url=f"https://pn125915.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "foxtrot":
-        url=f"https://pn125916.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "redwing":
-        url=f"https://redwing.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
-    elif remote == "rchat":
-        url=f"https://rchat.nist.gov/api"
-        api_key = os.environ.get("RCHAT_API_KEY")
-    elif remote == "openai":
+    if remote == "openai":
         url = "https://api.openai.com/v1"
         api_key = os.environ.get("OPENAI_API_KEY")
     else:
-        url=f"https://{remote}.nist.gov:{port_num}/v1"
-        api_key = "sk-no-key-required"
+        url=f"https://{remote}:{port_num}/v1"
+        api_key = "VLLM_API_KEY"
 
         
     
@@ -55,194 +33,108 @@ def translate_remote(remote:str) -> tuple[str, str]:
     return url, api_key
 
 
-    
 
 
-class SglModelSync:
-    def __init__(self, model="meta-llama/Llama-3.3-70B-Instruct", remote:str='sierra'):
+class SglModel:
+    def __init__(self, model=None, remote=None, sync_flag: bool = False):
         if model is None:
-            print("Model is not set, using default model: meta-llama/Llama-3.3-70B-Instruct")
-            model = "meta-llama/Llama-3.3-70B-Instruct"
+            raise RuntimeError("Model is not set")
+        if remote is None:
+            raise RuntimeError("Remote is not set")
         self.model = model
         self.remote = remote
-    
+        self.sync_flag = sync_flag
         self.url, self.api_key = translate_remote(remote)
 
-        
-    
-        self.client = openai.OpenAI(
-            base_url=self.url, 
-            api_key=self.api_key,
-            http_client=httpx.Client(verify=False)
-        )
-    
-    def process_all_batches(self, model_prompts):
-        """Process all batches sequentially, one prompt at a time"""
+        self.connection_parallelism = 64
+        if 'openai' in self.url:
+            print("OpenAI detected, setting connection parallelism to 8")
+            self.connection_parallelism = 8
+        if 'rchat' in self.url:
+            print("RCHAT detected, setting connection parallelism to 8")
+            self.connection_parallelism = 8
 
-        total_start_time = time.time()
-        results = []
-        
-        # Process prompts one by one
-        for i, prompt in enumerate(model_prompts):
-            current_time = time.strftime("%H:%M:%S")
-            print(f"  ({current_time}) remote request {i+1}/{len(model_prompts)}")
-            
-            # Process the request synchronously
-            start_time = time.time()
-            try:
-                if self.model == "o1-mini" or self.model == "o1-preview":
-                    response = self.client.chat.completions.create(
-                        model=self.model,
-                        messages=[{"role": "user", "content": prompt}],
-                        max_completion_tokens=4096,
-                        temperature=0.7,
-                        stream=False
-                    )
-                elif self.model == 'o3-mini' or self.model == 'o4-mini':
-                    response = self.client.chat.completions.create(
-                        model=self.model,
-                        messages=[{"role": "user", "content": prompt}],
-                        max_completion_tokens=4096,
-                        stream=False,
-                        temperature=0.7,
-                        # service_tier="flex",
-                    )
-                else:
-                    messages = [
-                        {"role": "system", "content": prompts.SYSTEM_PROMPT},
-                        {"role": "user", "content": prompt}
-                    ]
-                    
-                    response = self.client.chat.completions.create(
-                        model=self.model,
-                        messages=messages,
-                        max_tokens=2048,
-                        temperature=0.7,
-                        stream=False
-                    )
-                
+        print(f"Using model: {self.model} on remote: {self.remote} at {self.url} (sync={sync_flag})")
+
+        # Create appropriate client based on sync_flag
+        if self.sync_flag:
+            self.client = openai.OpenAI(
+                base_url=self.url,
+                api_key=self.api_key,
+                http_client=httpx.Client(verify=False)
+            )
+        else:
+            self.client = openai.AsyncOpenAI(
+                base_url=self.url,
+                api_key=self.api_key,
+                http_client=httpx.AsyncClient(verify=False)
+            )
+
+
+    def _generate_text_sync(self, prompt, request_id, reasoning_effort="high"):
+        """Synchronous text generation for debugging"""
+        start_time = time.time()
+        try:
+            if 'openai' in str(self.client.base_url):
+                # Use OpenAI Responses API for OpenAI models
+                response = self.client.responses.create(
+                    model=self.model,
+                    temperature=0.7,
+                    stream=False,
+                    max_output_tokens=16000,
+                    # reasoning={"effort": reasoning_effort},
+                    input=[{"role": "user", "content": prompt}]
+                )
+                elapsed = time.time() - start_time
+                input_tokens = response.usage.input_tokens
+                output_tokens = response.usage.output_tokens
+                total_tokens = input_tokens + output_tokens
+                content = response.output_text
+
+                result = {
+                    "request_id": request_id,
+                    "content": content,
+                    "error": None,
+                    "elapsed_time": elapsed,
+                    "input_tokens": input_tokens,
+                    "output_tokens": output_tokens,
+                    "total_tokens": total_tokens,
+                }
+                if content is None or content.isspace():
+                    result['error'] = "Empty response"
+                return result
+            else:
+                # Use Chat Completions API for other models
+                messages = [
+                    {"role": "system", "content": prompts.SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt}
+                ]
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    max_tokens=32000,
+                    temperature=0.7,
+                    reasoning_effort=reasoning_effort,
+                    stream=False
+                )
                 elapsed = time.time() - start_time
                 input_tokens = response.usage.prompt_tokens
                 output_tokens = response.usage.completion_tokens
                 total_tokens = response.usage.total_tokens
 
-                # print("********* <RESPONSE> *********")
-                # print(response)
-                # print("********* <CONTENT> *********")
-                # print(response.choices[0].message.content)
-                # print("********* </CONTENT> *********")
-                # print("********* </RESPONSE> *********")
-                
                 result = {
-                    "request_id": i,
+                    "request_id": request_id,
                     "content": response.choices[0].message.content,
                     "error": None,
                     "elapsed_time": elapsed,
                     "input_tokens": input_tokens,
                     "output_tokens": output_tokens,
-                    "total_tokens": total_tokens
+                    "total_tokens": total_tokens,
                 }
-
                 if response.choices[0].message.content.isspace():
                     result['error'] = "Empty response"
-            except Exception as e:
-                # optional handling here, but for now nothing to do
-                raise e
-            
-            results.append(result)
-        
-        total_time = time.time() - total_start_time
-        
-        return results, total_time
-    
-    
-    def generate(self, model_prompts: list[str]):
-        print("Remote model generating %d prompts (synchronously)" % len(model_prompts))
-        return self.process_all_batches(model_prompts)
-
-
-
-class SglModelAsync:
-    def __init__(self, model="meta-llama/Llama-3.3-70B-Instruct", remote:str='sierra'):
-        if model is None:
-            print("Model is not set, using default model: meta-llama/Llama-3.3-70B-Instruct")
-            model = "meta-llama/Llama-3.3-70B-Instruct"
-        self.model = model
-        self.remote = remote
-        self.url, self.api_key = translate_remote(remote)
-
-        self.connection_parallelism = 64
-        if 'openai' in self.url:
-            print("OpenAI detected, setting connection parallelism to 4")
-            self.connection_parallelism = 4
-
-        print(f"Using model: {self.model} on remote: {self.remote} at {self.url}")
-
-        self.client = openai.AsyncOpenAI(
-            base_url=self.url, 
-            api_key=self.api_key,
-            http_client=httpx.AsyncClient(verify=False)
-        )
-
-
-        
-    @staticmethod
-    async def generate_text_async(model, client, prompt, request_id):
-        start_time = time.time()
-        try:
-            
-            if model == "o1-mini" or model == "o1-preview":
-                response = await client.chat.completions.create(
-                    model=model,
-                    messages=[{"role": "user", "content": prompt}],
-                    max_completion_tokens=4096,
-                    temperature=0.7,
-                    stream=False
-                )
-            elif model == 'o3-mini' or model == 'o4-mini':
-                response = await client.chat.completions.create(
-                    model=model,
-                    messages=[{"role": "user", "content": prompt}],
-                    max_completion_tokens=4096,
-                    temperature=0.7,
-                    stream=False,
-                    # service_tier="flex",
-                )
-            else:
-                messages = [
-                    {"role": "system", "content": prompts.SYSTEM_PROMPT},
-                    {"role": "user", "content": prompt}
-                ]
-                
-                response = await client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    max_tokens=2048,
-                    temperature=0.7,
-                    stream=False
-                )
-            
-            elapsed = time.time() - start_time
-            input_tokens = response.usage.prompt_tokens
-            output_tokens = response.usage.completion_tokens
-            total_tokens = response.usage.total_tokens
-            
-            
-            result = {
-                "request_id": request_id,
-                "content": response.choices[0].message.content,
-                "error": None,
-                "elapsed_time": elapsed,
-                "input_tokens": input_tokens,
-                "output_tokens": output_tokens,
-                "total_tokens": total_tokens,
-                # "prompt": prompt
-            }
-            if response.choices[0].message.content.isspace():
-                result['error'] = "Empty response"
-            return result
+                return result
         except Exception as e:
-            # optional handling here, but for now nothing to do
             result = {
                 "request_id": request_id,
                 "content": None,
@@ -252,41 +144,132 @@ class SglModelAsync:
                 "output_tokens": 0,
                 "total_tokens": 0
             }
-            # return result
-            raise e
+            return result
+
+    @staticmethod
+    async def _generate_text_async(model, client, prompt, request_id, reasoning_effort="high"):
+        """Asynchronous text generation for parallel processing"""
+        start_time = time.time()
+        try:
+            if 'openai' in str(client.base_url):
+                # Use OpenAI Responses API for OpenAI models
+                response = await client.responses.create(
+                    model=model,
+                    temperature=0.7,
+                    stream=False,
+                    max_output_tokens=16000,
+                    # reasoning={"effort": reasoning_effort},
+                    input=[{"role": "user", "content": prompt}]
+                )
+                elapsed = time.time() - start_time
+                input_tokens = response.usage.input_tokens
+                output_tokens = response.usage.output_tokens
+                total_tokens = input_tokens + output_tokens
+                content = response.output_text
+
+                result = {
+                    "request_id": request_id,
+                    "content": content,
+                    "error": None,
+                    "elapsed_time": elapsed,
+                    "input_tokens": input_tokens,
+                    "output_tokens": output_tokens,
+                    "total_tokens": total_tokens,
+                }
+                if content is None or content.isspace():
+                    result['error'] = "Empty response"
+                return result
+            else:
+                # Use Chat Completions API for other models
+                messages = [
+                    {"role": "system", "content": prompts.SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt}
+                ]
+                response = await client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    max_tokens=32000,
+                    temperature=0.7,
+                    reasoning_effort=reasoning_effort,
+                    stream=False
+                )
+                elapsed = time.time() - start_time
+                input_tokens = response.usage.prompt_tokens
+                output_tokens = response.usage.completion_tokens
+                total_tokens = response.usage.total_tokens
+
+                result = {
+                    "request_id": request_id,
+                    "content": response.choices[0].message.content,
+                    "error": None,
+                    "elapsed_time": elapsed,
+                    "input_tokens": input_tokens,
+                    "output_tokens": output_tokens,
+                    "total_tokens": total_tokens,
+                }
+                if response.choices[0].message.content.isspace():
+                    result['error'] = "Empty response"
+                return result
+        except Exception as e:
+            result = {
+                "request_id": request_id,
+                "content": None,
+                "error": str(e),
+                "elapsed_time": 0,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "total_tokens": 0
+            }
+            return result
         
 
-    async def process_all_batches(self, model_prompts):
-        """Process all batches with a single client instance, in chunks of 64"""
-
+    def _process_all_sync(self, model_prompts, reasoning_effort="high"):
+        """Process all prompts sequentially (for debugging)"""
         total_start_time = time.time()
         results = []
-        
-        # Process prompts in batches
+
+        for i, prompt in enumerate(model_prompts):
+            current_time = time.strftime("%H:%M:%S")
+            print(f"  ({current_time}) sync request {i + 1}/{len(model_prompts)}")
+            result = self._generate_text_sync(prompt, i, reasoning_effort)
+            results.append(result)
+
+        total_time = time.time() - total_start_time
+        return results, total_time
+
+    async def _process_batch_async(self, batch_prompts, start_idx, reasoning_effort):
+        """Process a single batch of prompts concurrently"""
+        batch_tasks = [
+            self._generate_text_async(self.model, self.client, prompt, start_idx + j, reasoning_effort)
+            for j, prompt in enumerate(batch_prompts)
+        ]
+        return await asyncio.gather(*batch_tasks)
+
+    async def _process_all_async(self, model_prompts, reasoning_effort="high"):
+        """Process all batches with a single client instance, in chunks"""
+        total_start_time = time.time()
+        results = []
+
         batch_size = self.connection_parallelism
         for i in range(0, len(model_prompts), batch_size):
-            batch_prompts = model_prompts[i:i+batch_size]
+            batch_prompts = model_prompts[i:i + batch_size]
             current_time = time.strftime("%H:%M:%S")
-            print(f"  ({current_time}) remote batch {i//batch_size + 1}/{(len(model_prompts)-1)//batch_size + 1} ({len(batch_prompts)} prompts per batch)")
-            
-            # Create tasks for this batch with the shared client
-            batch_tasks = [
-                self.generate_text_async(self.model, self.client, prompt, i+j) 
-                for j, prompt in enumerate(batch_prompts)
-            ]
+            print(f"  ({current_time}) async batch {i // batch_size + 1}/{(len(model_prompts) - 1) // batch_size + 1} ({len(batch_prompts)} prompts per batch)")
 
-            # Execute this batch concurrently and gather results
-            batch_results = await asyncio.gather(*batch_tasks)
+            batch_results = await self._process_batch_async(batch_prompts, i, reasoning_effort)
             results.extend(batch_results)
-        
+
         total_time = time.time() - total_start_time
-        
         return results, total_time
-    
-    
-    def generate(self, model_prompts: list[str]):
-        print("Remote model generating %d prompts (asynchronously)" % len(model_prompts))
-        return asyncio.run(self.process_all_batches(model_prompts))
+
+    def generate(self, model_prompts: list[str], reasoning_effort="high"):
+        mode = "synchronously" if self.sync_flag else "asynchronously"
+        print(f"Remote model generating {len(model_prompts)} prompts ({mode}) using reasoning effort: {reasoning_effort}")
+
+        if self.sync_flag:
+            return self._process_all_sync(model_prompts, reasoning_effort)
+        else:
+            return asyncio.run(self._process_all_async(model_prompts, reasoning_effort))
     
 
     
@@ -294,27 +277,26 @@ class SglModelAsync:
 
 # Example usage
 if __name__ == "__main__":
-    async def main():
-        model = SglModelAsync()
-        import json
-        # load the squadv2 dataset subset
-        with open('squadv2_subset.json', 'r') as f:
-            dataset = json.load(f)
-        dataset = dataset[:32]
+    import json
 
-        contexts = [item['context'] for item in dataset]
+    # Async mode (default, parallel processing)
+    model = SglModel(sync_flag=False)
 
-        # Async usage
-        results, total_time = await model.generate_async(contexts)
-        
-        # Or synchronous usage
-        # results, total_time = model.generate(contexts)
-        
-        res = results[0]
-        print(res)
-        print(f"in total took: {total_time} seconds")
-        print(f"per question took: {total_time / len(results)} seconds for {len(results)} questions")
+    # Sync mode (for debugging, sequential processing)
+    # model = SglModel(sync_flag=True)
 
-    asyncio.run(main())
+    # Load the squadv2 dataset subset
+    with open('squadv2_subset.json', 'r') as f:
+        dataset = json.load(f)
+    dataset = dataset[:32]
+
+    contexts = [item['context'] for item in dataset]
+
+    results, total_time = model.generate(contexts)
+
+    res = results[0]
+    print(res)
+    print(f"in total took: {total_time} seconds")
+    print(f"per question took: {total_time / len(results)} seconds for {len(results)} questions")
     
     

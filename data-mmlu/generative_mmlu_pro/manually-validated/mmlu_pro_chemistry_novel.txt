@@ -1,0 +1,81 @@
+================================================================================
+Question1: Considering the standard enthalpy of formation (Δ_fH°) and standard entropy (S°) for red HgS(s) (Δ_fH° = –58.16 kJ mol⁻¹, S° = 82.4 J K⁻¹ mol⁻¹) and black HgS(s) (Δ_fH° = –53.56 kJ mol⁻¹, S° = 88.28 J K⁻¹ mol⁻¹), at approximately what temperature (in kelvin) would the black polymorph become thermodynamically more stable than the red polymorph (i.e., have a lower Δ_fG°)?
+Answer: Approximately 780 K.
+Human Evaluation: Correct and Supported
+
+Question2: Considering that instrument‑limited measurements derive their uncertainty from the resolution of the device, while a population count such as the US 2014 census is subject to statistical uncertainty, how many significant figures should the census figure of 317,297,725 be reported with, and what representation reflects that level of precision?
+Answer: Three significant figures (3.17 × 10⁸)
+Human Evaluation: Correct and Supported but Degenerate as its more of an opinion in the source context than a fact.
+
+Question3: Explain how inserting the expression ΔSsurr = –ΔH/T for the surroundings’ entropy change into the total entropy change ΔSuniv = ΔSsys + ΔSsurr yields the Gibbs free energy equation ΔG = ΔH – TΔS, and using the condensation example where ΔS° = –120.6 J K⁻¹ mol⁻¹, state the resulting sign of ΔG and what it indicates about spontaneity.
+Answer: ΔG = ΔH – TΔS = –TΔSuniv, so for condensation ΔG is negative, indicating ΔSuniv > 0 and the process is spontaneous.
+Human Evaluation: Correct and Supported
+
+Question4: Considering the listed bond lengths and energies for C–C, C–N, and C–O single, double, and triple bonds, how does bond length systematically relate to bond energy across these series, and why does the C–O series exhibit a larger increase in bond energy for a given decrease in bond length compared to the C–C and C–N series?
+Answer: Higher bond order raises s‑character and orbital overlap, shortening the bond and increasing its energy, and oxygen’s greater electronegativity makes its σ and π bonds especially strong, producing a larger energy gain per unit length reduction for the C–O series.
+Human Evaluation: Correct and Supported, but the question references the context and so its missing information. 
+
+Question5: How should the coupled equilibria for the two carboxyl groups of a 0.010 M phthalic acid solution be formulated, accounting for the reduction of the second dissociation constant by intramolecular hydrogen bonding, and what steps are required to obtain the exact pH?
+Answer: Write the two stepwise dissociation equilibria with Ka₁ and a lowered Ka₂ (due to H‑bonding), apply the mass‑balance C₀ = [H₂A]+[HA⁻]+[A²⁻] and charge‑balance [H⁺] = [HA⁻]+2[A²⁻]+[OH⁻], then solve the resulting coupled equations for [H⁺] to calculate the pH.
+Human Evaluation: Correct and Unsupported, as the information to required to answer the question is not found in the context. 
+
+Question6: Based on a label stating that 2.0 L equals 67.6 fl oz, what conversion factor between liters and fluid ounces can be derived, how many significant figures are justified for this factor, and how would rounding the factor influence the precision of subsequent volume conversions?
+Answer: 1 L ≈ 33.8 fl oz (3 significant figures); rounding to 33.8 limits later conversions to three‑figure precision and can introduce up to ~0.1 % error.
+Human Evaluation: Correct and Supported
+
+Question7: Using ΔG = ΔH – TΔS, predict how the spontaneity of NaCl melting changes when the temperature is raised from 500 °C to 700 °C, and explain why the entropy contribution becomes more decisive at the higher temperature.
+Answer: Nonspontaneous at 500 °C (ΔG > 0) and spontaneous at 700 °C (ΔG < 0) because the larger TΔS term at the higher temperature outweighs the positive ΔH.
+Human Evaluation: Correct and Unsupported as the context is missing the ΔG = ΔH − TΔS equation. 
+
+Question8: A reaction proceeds via a rapid pre‑equilibrium dimerization of NO (2 NO ⇌ N₂O₂) followed by a slow unimolecular conversion of N₂O₂ to final products. What is the overall rate law expressed in terms of [NO], and what is the molecularity of the rate‑determining step?
+Answer: rate = k₂K_eq[NO]²; the rate‑determining step is unimolecular (molecularity = 1).
+Human Evaluation: Correct and Supported
+
+Question9: What quantitative inequality constitutes the “‑5 % rule” for deciding whether the concentration change x in a solubility‑product problem can be neglected, and how does this inequality determine (i) when a simple approximation suffices, (ii) when the full quadratic Ksp expression must be solved, and (iii) when iterative successive‑approximation methods become necessary?
+Answer: Neglect x when x < 0.05 c₀; if x ≥ 0.05 c₀, solve the full Ksp as a quadratic, and if the quadratic still yields x ≥ 0.05 c₀, apply successive‑approximation iterations.
+Human Evaluation: Correct and Supported
+
+Question10: Consider a redox reaction with a standard cell potential of –0.40 V that transfers 2 electrons (n = 2) and has a reaction quotient Q = 0.01. At what temperature (in kelvin) does the Gibbs free energy change become zero, indicating that the reaction would become spontaneous at higher temperatures?
+Answer: Approximately 2.0 × 10³ K
+Human Evaluation: Correct and Supported
+
+Question11: Based on the orbitals each element can employ, what is the highest coordination number attainable for boron and for silicon, and what molecular geometry corresponds to each element when it reaches that maximum?
+Answer: Boron – four‑coordinate tetrahedral; Silicon – six‑coordinate octahedral.
+Human Evaluation: Correct and Supported
+
+Question12: Derive the coupled equilibrium expressions for the two dissociation steps of H₂SO₄ and, using the approximation guideline described in the context, specify the concentration regime in which the second dissociation must be solved without assuming the change (x) is negligible compared to the initial species concentration.
+Answer: Ka₁ = [H⁺][HSO₄⁻]/[H₂SO₄] and Ka₂ = [H⁺][SO₄²⁻]/[HSO₄⁻]; the second dissociation must be treated without the small‑x approximation when its extent x exceeds roughly 5 % of the HSO₄⁻ concentration.
+Human Evaluation: Correct and Unsupported, because the question refers to information in the context (thus the question is missing information) and the context is missing the actual dissociation calculation. 
+
+Question13: Based on the descriptions provided, what are the chemical compositions of the protective passivation films that develop on the Statue of Liberty’s copper surface and on stainless steel, how does the text characterize their adherence to the underlying metal, and does it mention any self‑healing capability under cyclic wet‑dry exposure?
+Answer: The copper patina consists of copper oxides transformed by SO₃, CO₂, and H₂O into a blue‑green protective film, stainless steel’s passivation layer is chromium oxide, both are described as adherent protective layers, and the text does not address self‑healing under wet‑dry conditions.
+Human Evaluation: Incorrect and Unsupported because the question relies on information present in the context. Additionally, the answer formulation changed the context text from "The chromium tends to collect near the surface, where it corrodes and forms a passivating **an oxide layer** that protects the iron" to the wrong answer of "chromium oxide".
+
+Question14: A 250 mL aqueous solution is prepared containing leucine (C₆H₁₃NO₂) at a concentration of 0.025 mol·L⁻¹. What is the mass of nitrogen present in the solution, and what percentage of the minimum daily leucine requirement (1.1 g) does the total leucine in the solution represent?
+Answer: ≈0.088 g nitrogen; about 75 % of the daily leucine requirement.
+Human Evaluation: Correct and Supported
+
+Question15: Given that the standard Gibbs free energy of formation for Ca(s) is 0 kJ mol⁻¹ and for Ca²⁺(aq) is –542.96 kJ mol⁻¹, calculate the standard free energy change for the ionization of calcium metal (Ca(s) → Ca²⁺(aq) + 2 e⁻). How does this ΔG° value relate to the standard reduction potential of the Ca²⁺/Ca couple, and what does it imply about calcium’s usefulness in electrochemical cells?
+Answer: –542.96 kJ mol⁻¹; this corresponds to a standard reduction potential of roughly –2.8 V, showing calcium is a powerful reducing agent and would provide a strong driving force in electrochemical cells.
+Human Evaluation: Correct and Supported
+
+Question16: Why can't the rem exposure levels in the health‑effects table be accurately converted to gray (Gy) for reassessing clinical severity based solely on the provided context?
+Answer: The specific radiation quality factors for each exposure are not provided.
+Human Evaluation: Incorrect and Unsupported, Question is degenerate as it references information only in the context, and the answer is basically nonsensical. 
+
+Question17: Based on the given masses (A: 4.27 g C, 5.69 g O; B: 5.19 g C, 13.84 g O), determine the empirical formula of each compound, calculate the precise ratio of the oxygen‑to‑carbon mass ratio of B to that of A, and explain why this integer ratio supports the law of multiple proportions rather than the law of definite proportions, considering possible experimental uncertainties.
+Answer: A = CO, B = CO₂; B’s O/C mass ratio is twice A’s (2 : 1), confirming the law of multiple proportions (experimental error may cause slight deviations).
+Human Evaluation: Correct and Supported
+
+Question18: Using the equilibrium constant Kₚ = 1.3 × 10³ at 298 K for the gas‑phase dimerization 2 CH₃CO₂H(g) ⇌ (CH₃CO₂H)₂(g) and the hydrogen‑bond enthalpy of –66.5 kJ mol⁻¹ released on dimer formation, calculate the standard entropy change ΔS° for the reaction, and explain why increasing the temperature shifts the equilibrium toward the monomeric acetic acid.
+Answer: ΔS° ≈ –164 J K⁻¹ mol⁻¹; because ΔS° is negative, raising temperature makes –TΔS more positive, reducing the free‑energy drive for dimer formation and shifting the equilibrium toward monomers.
+Human Evaluation: Correct and Supported
+
+Question19: Using the bond energy of –114 kJ (item 65a) and the lattice energy of –1055 kJ (item 65c) supplied in the context, what net enthalpy change does a simple model predict for forming NaCl from its elements, and why does this prediction not fully match the experimentally observed formation enthalpy?
+Answer: –1169 kJ; the model overestimates because it neglects the endothermic atomization and ionization steps required to produce the ions.
+Human Evaluation: Correct and Supported, but the question references the context in a harmless way.
+
+Question20: When determining the mass of lead in a 300 mL water sample at the EPA limit of 15 ppb, the calculation assumes a water density of 1.00 g/mL. How do temperature‑induced changes in water density (e.g., between 0 °C and 25 °C) alter this calculated mass, and what single correction factor should be applied to restore accuracy?
+Answer: Multiply the initially calculated lead mass by (actual water density ÷ 1.00 g/mL).
+Human Evaluation: Correct and Supported
+

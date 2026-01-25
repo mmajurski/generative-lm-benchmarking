@@ -1,0 +1,80 @@
+================================================================================
+Question1: Which specific characteristic of exokernel architecture directly counters the vendor lock‑in and limited control inherent in cloud service models, making it advantageous for specialized high‑performance computing workloads?
+Answer: Exposing hardware details to applications for direct resource management
+Human Evaluation: Correct and Supported
+
+Question2: How should a multivalued attribute be transformed into a relational representation so that duplicate data is avoided and aggregation queries (e.g., counting values per entity) remain efficient, and what key structure should be indexed to achieve this performance?
+Answer: Create a child table with the multivalued attribute and the parent’s primary key as a foreign key, define a composite primary key of (parent‑PK, attribute), and index this key (or the foreign‑key column) to enable efficient aggregation.
+Human Evaluation: Correct and Supported
+
+Question3: Considering the spiral model’s emphasis on risk analysis, iterative development, and the associated needs for specialized risk‑management expertise, documentation, and higher iteration costs, for which type of projects is the model most appropriate, and why is it generally unsuitable for small, low‑risk projects?
+Answer: It is appropriate for large, high‑risk projects where its iterative risk analysis justifies the extra cost, documentation effort, and need for risk‑management expertise, but unsuitable for small, low‑risk projects because those overheads outweigh its benefits.
+Human Evaluation: Correct and Supported
+
+Question4: Why does ensuring clear attribute semantics matter for achieving higher normal forms such as 3NF and BCNF during the normalization step of logical design?
+Answer: Because unclear semantics can hide redundancy and functional dependencies, causing violations of 3NF and BCNF.
+Human Evaluation: Correct and Unsupported as the context doesn't mention functional dependencies, 3NF, or BCNF. 
+
+Question5: What virtualization mechanism described ensures continuous information availability during hardware upgrades while simultaneously satisfying the TRM's assurance and adaptability requirements?
+Answer: Using a spare third VM as a backup during upgrades and then swapping primary and backup roles.
+Human Evaluation: Correct and Supported, but the question references the context in a harmless manner.
+
+Question6: Why does executing a scenario‑based system test provide a valid assessment of dynamic quality attributes such as scalability and reliability, whereas reviewing specifications alone cannot achieve this validation?
+Answer: Because it measures runtime behavior under realistic load, which static reviews cannot capture.
+Human Evaluation: Correct and Supported
+
+Question7: Which dimensions must be measured to evaluate the trustworthiness of data in AI systems so that they fulfill the World Economic Forum’s Society 5.0 vision of inclusivity, decentralization, and sustainability?
+Answer: Fairness (bias mitigation), transparency, user privacy respect, decentralization, and environmental sustainability.
+Human Evaluation: Correct and Supported
+
+Question8: Given that modern HDD latency (≈10 ms) still makes swapping 16 million+ pages take over 44 hours, flash latency (≈100 µs) reduces but does not eliminate this cost, and emerging 3D XPoint memory offers nanosecond latency while TLBs now cover only a tiny fraction of multi‑gigabyte memories, how does the scalability of traditional paging break down, and which memory‑management approaches—such as whole‑binary loading, huge‑page usage, or tiered fast non‑volatile memory—could replace or augment paging in contemporary operating systems?
+Answer: Paging is unscalable (hours to swap), so OSs should adopt whole‑binary loading, huge pages, and fast NVM/flash tiered memory instead of relying on fine‑grained page swaps.
+Human Evaluation: Correct and Supported, but the context is more nuanced than this question answer pair. 
+
+Question9: How should a solution‑accelerator platform be integrated with a pattern‑catalog repository to maximize reuse of solution architecture patterns and minimize time‑to‑market, based on the tasks describing a pattern catalog that provides architecture diagrams and a solution accelerator that speeds idea implementation?
+Answer: By exposing the pattern catalog through an API that the solution‑accelerator consumes to retrieve, instantiate, and customize reusable architecture patterns, with the accelerator feeding back new patterns to keep the catalog updated, thus maximizing reuse and shortening time‑to‑market.
+Human Evaluation: Correct and Unsupported, as the context does not explicitly cover how to integrate the two ideas. 
+
+Question10: How does symbolic execution combined with constraint solving automatically generate inputs that violate a function’s specified preconditions, and what are the primary scalability bottlenecks of this technique?
+Answer: By symbolically tracing the program to collect path constraints and then using a solver to find inputs that falsify the precondition constraints; the main bottlenecks are path explosion from many possible paths and the high cost of solving large constraint sets.
+Human Evaluation: Correct and Supported
+
+Question11: What is the conceptual inconsistency in calling the doubly linked list of memory blocks a “heap,” and how does this terminology affect the perceived nature of memory‑management algorithms?
+Answer: It conflates a tree‑based heap with a linked list, causing the mistaken impression that heap‑ordering allocation algorithms are used instead of the actual list‑based best‑fit approach.
+Human Evaluation: Correct and Supported
+
+Question12: Which specific roles, policies, and processes should a health‑care organization incorporate into its data‑governance framework for a new patient portal to ensure data accuracy, completeness, consistency, and accessibility?
+Answer: Roles: Data Owner, Data Steward, DBA, Security Manager; Policies: Data Quality (accuracy/completeness), Data Consistency (ACID/CDC), Data Access (accessibility), Data Compliance/Security; Processes: entry validation, regular quality audits, CDC for updates, backup/archival, continuous monitoring.
+Human Evaluation: Correct and Supported
+
+Question13: How does the transition from a single operating system per machine to multiple guest operating systems running in virtual machines alter the kernel security model, and what distinguishes hypervisor‑mediated isolation from the namespace‑based isolation used by containers?
+Answer: Hypervisors isolate each guest OS with its own kernel, whereas containers share a single kernel and rely on namespace isolation.
+Human Evaluation: Correct and Supported
+
+Question14: How does the passage position HTML and CSS in relation to high‑level programming languages, and what justification does it give—based on their level of abstraction and the way they are executed—for treating them as HLLs?
+Answer: The text treats HTML and CSS as high‑level languages because they abstract hardware details and let programmers specify structure and style rather than low‑level implementation.
+Human Evaluation: Incorrect and Supported, because the question references the context in a manner that is missing information as an isolated question. 
+
+Question15: What core components should a governance process include to systematically capture expert architects’ “good‑smell” architectural judgments and translate them into documented heuristics for junior teams?
+Answer: Capture the experts’ “good‑smell” judgments, document the underlying process patterns, and codify those patterns as heuristics for junior teams.
+Human Evaluation: Correct and Supported, but the question is circular and low quality. 
+
+Question16: When unifying mobile health, emotion‑control‑management, and remote‑surgery architectural styles into a single pattern language, what primary considerations must be evaluated to enable their integration?
+Answer: The domain of applicability, scope, and level of abstraction (i.e., the degree of specialization) for each style within the architecture continuum.
+Human Evaluation: Correct and Supported
+
+Question17: How do the risk‑management approaches of traditional waterfall models differ from those employed by Agile Software Development Ecosystems (ASDE), and what are the primary strengths and weaknesses of each as described in the passage?
+Answer: Waterfall mitigates risk through detailed upfront planning and fixed processes, providing predictability but limited flexibility, whereas ASDE mitigates risk via incremental delivery, continuous customer feedback, and adaptability, offering rapid issue detection but struggling with large, high‑risk projects and coordination challenges.
+Human Evaluation: Correct and Supported, but mentions the context in a harmless manner.
+
+Question18: Considering that NSLs disclose metadata such as who communicated, when, and how much data was transferred—information described as a “proxy for content”—what limitation does the context imply for traffic‑analysis resistance methods like packet padding and timing obfuscation when facing state‑level adversaries?
+Answer: They are limited because NSL metadata can still reveal communication patterns despite padding or timing obfuscation.
+Human Evaluation: Correct and Supported, but mentions the context in a harmless manner.
+
+Question19: How does defining `list_display = ("title", "created", "due_date")` in the `TodoListAdmin` registration shape the columns shown for Todo items in the Django admin interface, and how does this presentation differ from what the DRF browsable API displays for Todo items?
+Answer: The admin list view shows only the title, created, and due_date columns, whereas the DRF browsable API displays all Todo fields as JSON with the Category field presented as a drop‑down selector.
+Human Evaluation: Incorrect and Unsupported because the question cannot stand independent of the context.
+
+Question20: When unit testing is employed as the primary testing approach in a safety‑critical system, which two distinct testing objectives described in the context must be added to ensure that the software both conforms to its specified requirements and satisfies the users' needs?
+Answer: Verification and validation
+Human Evaluation: Correct and Supported

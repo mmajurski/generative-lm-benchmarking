@@ -6,20 +6,15 @@ import time
 import random
 
 import answer_parser
-from model_interface import SglModelAsync, SglModelSync
+from similarity_filter import get_duplicate_contexts_embedding_cosine
+from model_interface import SglModel
 from generate_document_topics import extract_topics_per_context
-import utils
 import prompts
 
 
 
 
-
-
-
-
-
-def build_questions(dataset: list[dict], remote:str, model:str, async_flag:bool=False) -> list[dict]:
+def build_questions(dataset: list[dict], remote:str, model_name:str, async_flag:bool=False):
 
     
     # Create a list to store model responses
@@ -42,12 +37,7 @@ def build_questions(dataset: list[dict], remote:str, model:str, async_flag:bool=
     # build the prompts
     model_prompts = [prompts.QUESTION_GEN_PROMPT.format(context=d['context'], topic=d['topic']) for d in model_responses]
 
-    if async_flag:
-        print("Using async model")  
-        model = SglModelAsync(remote=remote, model=model)
-    else:
-        print("Using sync model")
-        model = SglModelSync(remote=remote, model=model)
+    model = SglModel(remote=remote, model=model_name, sync_flag=(not async_flag))
     print(f"Generating questions against {model.url}")
     results, total_time = model.generate(model_prompts)
     print(f"in total took: {total_time} seconds")
@@ -99,17 +89,30 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Converts a jsonl dataset into MMLU format to be used as an open ended evaluation.')
     parser.add_argument('--dataset', type=str, default='squadv2.jsonl', help='dataset to generate, options: squadv2, ucinlp_drop')
-    parser.add_argument('--src_dataset_dir', type=str, default='./data-subset', help='source dataset directory')
-    parser.add_argument('--out_dataset_dir', type=str, required=True, help='output dataset directory')
-    parser.add_argument('--remote', type=str, default="openai")
-    parser.add_argument('--model', type=str, default="gpt-4.1-nano")
+    parser.add_argument('--src_dataset_dir', type=str, default='./data-subset-500', help='source dataset directory')
+    parser.add_argument('--out_dataset_dir', type=str, default='./data-subset-100', help='output dataset directory')
+    parser.add_argument('--remote', type=str, default="sierra")
+    parser.add_argument('--model', type=str, default="meta-llama/Llama-3.3-70B-Instruct")
     parser.add_argument('--disable_async', action='store_false', dest='async_flag', help='Set to disable async processing (async is enabled by default)')
     parser.add_argument('--sample_count', type=int, default=100, help='number of total questions to generate, set to <=0 for all')
     parser.set_defaults(async_flag=True)
 
     args = parser.parse_args()
     print("Generating novel MCQs")
+
+
+
     print(args)
+
+    base_path = os.path.splitext(args.dataset)[0]  # Remove extension
+    fn_basename = os.path.basename(base_path) + "_novel"
+    fn_basename = fn_basename.replace('computer-systems-security-planning-for-success','sec_qa')
+    os.makedirs(args.out_dataset_dir, exist_ok=True)
+    output_fn = os.path.join(args.out_dataset_dir, f'{fn_basename}.json')
+    if os.path.exists(output_fn):
+        print(f"Output file {output_fn} already exists, skipping")
+        exit()
+
 
     start_time = time.time()
 
@@ -119,10 +122,11 @@ if __name__ == '__main__':
         dataset = json.load(f)
 
     random.shuffle(dataset)
-    if args.sample_count > 0 and len(dataset) > args.sample_count:
-        print(f"Dataset has more than {args.sample_count} contexts, keeping only the first {args.sample_count}")
-        print(f"This enables reasonable runtime for the model evaluation")
-        dataset = dataset[:args.sample_count]
+    
+    sc = int(args.sample_count)
+    if args.sample_count > 0 and sc < len(dataset):
+        # assume that each context has at least 3 questions
+        dataset = random.sample(dataset, sc)
 
     # Keep only the "context" element for every item in the dataset
     for item in dataset:
@@ -137,18 +141,23 @@ if __name__ == '__main__':
 
     print("Dataset has %d contexts" % len(dataset))
 
-    
+
     print("Extracting topics for each context. Will construct a question for each topic.")
     contexts = [d['context'] for d in dataset]
-        
     topic_remote = args.remote 
     topic_model = args.model
-    topics_list, topic_extraction_responses = extract_topics_per_context(contexts, topic_remote, model=topic_model, async_flag=args.async_flag)
+    topics_list, topic_extraction_responses = extract_topics_per_context(contexts, topic_remote, model_name=topic_model, async_flag=args.async_flag)
+
+
     
     new_dataset = []
     topic_counts = []
     for i in range(len(dataset)):
         topics = topics_list[i]
+        if len(topics) == 0:
+            continue
+        # to_delete_idx, _ = get_duplicate_contexts_embedding_cosine(topics, model=model)
+        # topics = [topics[j] for j in range(len(topics)) if j not in to_delete_idx]
         topic_counts.append(len(topics))
         for topic in topics:
             dat = copy.deepcopy(dataset[i])
@@ -158,25 +167,22 @@ if __name__ == '__main__':
     dataset = new_dataset
     print(f"  average number of topics per context: {np.mean(topic_counts)}")
     print("Dataset has %d contexts after expansion per unique topic" % len(dataset))
+    
     if args.sample_count > 0 and len(dataset) > args.sample_count:
         print(f"Dataset has more than {args.sample_count} contexts, keeping only the first {args.sample_count}")
         print(f"This enables reasonable runtime for the model evaluation")
         dataset = dataset[:args.sample_count]
-    
+
+
     model_responses, failed_responses = build_questions(dataset, args.remote, args.model, async_flag=args.async_flag)
 
     elapsed_time = time.time() - start_time
 
-    base_path = os.path.splitext(args.dataset)[0]  # Remove extension
-    fn_basename = os.path.basename(base_path) + "_novel"
-    out_fldr = os.path.join(args.out_dataset_dir, fn_basename)
-    os.makedirs(out_fldr, exist_ok=True)
-    output_fn = os.path.join(out_fldr, f'{fn_basename}.jsonl')
+
     
     print(f"Saving {len(model_responses)} questions to {output_fn}")
     with open(output_fn, 'w') as f:
         json.dump(model_responses, f, indent=2)
-
 
     
 

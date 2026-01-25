@@ -2,7 +2,7 @@ import numpy as np
 import re
 
 
-def parse_topic_extraction(response: str) -> dict:
+def parse_topic_extraction(response: str):
    
     result = list()
     
@@ -33,7 +33,7 @@ def parse_topic_extraction(response: str) -> dict:
     return result
 
 
-def parse_explanation_validity_numbers(response: str, valid_options: list = None) -> dict:
+def parse_explanation_validity_numbers(response: str, valid_options: list = None):
    
     result = {
         'answer_correctness_score': None,
@@ -55,8 +55,6 @@ def parse_explanation_validity_numbers(response: str, valid_options: list = None
     if output_format_matches:
         # If output format tags are found, use only the content from the last match
         cleaned_response = output_format_matches[-1].group(1).strip()
-
-
     
     answer_match = re.search(r'(?:Answer Correctness|answer correctness)\s*:\s*(\d+)', cleaned_response)
     if answer_match:
@@ -77,6 +75,7 @@ def parse_explanation_validity_numbers(response: str, valid_options: list = None
                 result['explanation_validity_score'] = num
         except ValueError:
             pass
+        
 
     for k in result.keys():
         if result[k] is None:
@@ -85,12 +84,13 @@ def parse_explanation_validity_numbers(response: str, valid_options: list = None
     return result
 
 
-def parse_reformat_validity_numbers(response: str, valid_options: list = None) -> dict:
+def parse_reformat_validity_numbers(response: str, valid_options: list = None):
    
+    
     result = {
-        'question_similarity_score': None,
-        'answer_similarity_score': None
-    }
+                'question_similarity_score': None,
+                'answer_similarity_score': None
+            }
     
     # Preprocess the response to remove markdown formatting
     # Replace **text** with text to handle bold formatting
@@ -99,18 +99,19 @@ def parse_reformat_validity_numbers(response: str, valid_options: list = None) -
     cleaned_response = re.sub(r'(?:^|\n)\s*-\s*', r'\n', cleaned_response)
     # Remove leading whitespace from all lines
     cleaned_response = re.sub(r'(?:^|\n)\s+', r'\n', cleaned_response)
+    cleaned_response = cleaned_response.replace('[', '').replace(']', '')
+    cleaned_response = cleaned_response.replace('\'', '').replace('\"', '')
 
     # Extract content between <output_format> and </output_format> tags if present
     output_format_pattern = r'<output_format>(.*?)</output_format>'
     output_format_matches = list(re.finditer(output_format_pattern, cleaned_response, re.DOTALL))
-    
+
     if output_format_matches:
         # If output format tags are found, use only the content from the last match
         cleaned_response = output_format_matches[-1].group(1).strip()
-
-
     
-    answer_match = re.search(r'(?:Question Similarity|question similarity)\s*:\s*(\d+)', cleaned_response)
+        
+    answer_match = re.search(r'(?:question similarity|question similairty)\s*:\s*(\d+)', cleaned_response, re.IGNORECASE)
     if answer_match:
         try:
             num = int(answer_match.group(1))
@@ -120,7 +121,7 @@ def parse_reformat_validity_numbers(response: str, valid_options: list = None) -
         except ValueError:
             pass
 
-    answer_match = re.search(r'(?:Answer Similarity|answer similarity)\s*:\s*(\d+)', cleaned_response)
+    answer_match = re.search(r'(?:answer similarity|answer similairty)\s*:\s*(\d+)', cleaned_response, re.IGNORECASE)
     if answer_match:
         try:
             num = int(answer_match.group(1))
@@ -138,7 +139,7 @@ def parse_reformat_validity_numbers(response: str, valid_options: list = None) -
 
 
 
-def parse_meta_properties_numbers(response: str, valid_options: list = None) -> dict:
+def parse_meta_properties_numbers(response: str, valid_options: list = None):
    
     result = {
         'clarity_score': None,
@@ -153,6 +154,7 @@ def parse_meta_properties_numbers(response: str, valid_options: list = None) -> 
     cleaned_response = re.sub(r'(?:^|\n)\s*-\s*', r'\n', cleaned_response)
     # Remove leading whitespace from all lines
     cleaned_response = re.sub(r'(?:^|\n)\s+', r'\n', cleaned_response)
+    cleaned_response = cleaned_response.replace('[', '').replace(']', '')
 
     # Extract content between <output_format> and </output_format> tags if present
     output_format_pattern = r'<output_format>(.*?)</output_format>'
@@ -160,7 +162,9 @@ def parse_meta_properties_numbers(response: str, valid_options: list = None) -> 
     
     if output_format_matches:
         # If output format tags are found, use only the content from the last match
-        cleaned_response = output_format_matches[-1].group(1).strip()
+        match_str = output_format_matches[-1].group(1).strip()
+        if len(match_str) > 0:
+            cleaned_response = match_str
 
 
     
@@ -202,7 +206,63 @@ def parse_meta_properties_numbers(response: str, valid_options: list = None) -> 
 
 
 
-def parse_generated_mcq(response: str) -> dict:
+def parse_question_completeness_numbers(response: str, valid_options: list = None):
+   
+    result = {
+        'question_completeness_score': None,
+        'answer_completeness_score': None
+    }
+    
+    # Preprocess the response to remove markdown formatting
+    # Replace **text** with text to handle bold formatting
+    cleaned_response = re.sub(r'\*\*([^*]+)\*\*', r'\1', response)
+    # Remove dash prefixes at the beginning of lines
+    cleaned_response = re.sub(r'(?:^|\n)\s*-\s*', r'\n', cleaned_response)
+    # Remove leading whitespace from all lines
+    cleaned_response = re.sub(r'(?:^|\n)\s+', r'\n', cleaned_response)
+    cleaned_response = cleaned_response.replace('[', '').replace(']', '')
+
+    # Extract content between <output_format> and </output_format> tags if present
+    output_format_pattern = r'<output_format>(.*?)</output_format>'
+    output_format_matches = list(re.finditer(output_format_pattern, cleaned_response, re.DOTALL))
+    
+    if output_format_matches:
+        # If output format tags are found, use only the content from the last match
+        match_str = output_format_matches[-1].group(1).strip()
+        if len(match_str) > 0:
+            cleaned_response = match_str
+
+
+    
+    answer_match = re.search(r'(?:Question Completeness|question completeness)\s*:\s*(\d+)', cleaned_response)
+    if answer_match:
+        try:
+            num = int(answer_match.group(1))
+            # If valid_options is provided, check if this number is valid
+            if valid_options is None or num in valid_options:
+                result['question_completeness_score'] = num
+        except ValueError:
+            pass
+
+    answer_match = re.search(r'(?:Answer Completeness|answer completeness)\s*:\s*(\d+)', cleaned_response)
+    if answer_match:
+        try:
+            num = int(answer_match.group(1))
+            # If valid_options is provided, check if this number is valid
+            if valid_options is None or num in valid_options:
+                result['answer_completeness_score'] = num
+        except ValueError:
+            pass
+
+    for k in result.keys():
+        if result[k] is None:
+            return None
+
+    return result
+
+
+
+def parse_generated_mcq(response: str):
     """
     Parses an LLM response to extract a question, correct answer, and answer options.
     
@@ -368,7 +428,7 @@ def parse_generated_mcq(response: str) -> dict:
 
 
 
-def parse_generated_open(response: str) -> dict:
+def parse_generated_open(response: str):
     """
     Parses an LLM response to extract a question, correct answer, and answer options.
     
@@ -408,12 +468,17 @@ def parse_generated_open(response: str) -> dict:
     if output_format_matches:
         # If output format tags are found, use only the content from the last match
         cleaned_response = output_format_matches[-1].group(1).strip()
+    else:
+        output_format_pattern = r'<output_format>(.*)'
+        output_format_matches = list(re.finditer(output_format_pattern, response, re.DOTALL))
+        if output_format_matches:
+            cleaned_response = output_format_matches[-1].group(1).strip()
     
     
     # Try to extract the question - now supporting both formats
     question_patterns = [
-        # Format: Question: text (single line only)
-        r"(?:^|\n)\s*Question\s*:?\s*([^\n]+)(?=\s*(?:[A-D]:|Options|Choices|Answers|A\s*[:.)]|A\.|A\)|\(A\)|A:))",
+        # Format: Question: text (multiple lines until Explanation or Correct Answer)
+        r"(?:^|\n)\s*Question\s*:?\s*(.+?)(?=\s*(?:Explanation|Correct\s+Answer))",
         # Fallback pattern (single line only)
         r"(?:^|\n)\s*Question\s*:?\s*([^\n]+)",
         # Format with newline-separated options (single line only)
@@ -422,15 +487,15 @@ def parse_generated_open(response: str) -> dict:
     
     for pattern in question_patterns:
         # Find all matches and take the last one
-        question_matches = list(re.finditer(pattern, cleaned_response))
+        question_matches = list(re.finditer(pattern, cleaned_response, re.DOTALL))
         if question_matches:
             result['question'] = question_matches[-1].group(1).strip()
             break
 
     # Try to extract the question - now supporting both formats
     explanation_patterns = [
-        # Format: Explanation: text (single line only)
-        r"(?:^|\n)\s*Explanation\s*:\s*([^\n]+)(?=\s*(?:Correct\s+Answer|$))",
+        # Format: Explanation: text (multiple lines until Correct Answer)
+        r"(?:^|\n)\s*Explanation\s*:\s*(.+?)(?=\s*(?:Correct\s+Answer|$))",
         # Format: Explanation - text
         r"(?:^|\n)\s*Explanation\s*-\s*([^\n]+)",
         # Format: Explanation (with optional colon)
@@ -439,7 +504,7 @@ def parse_generated_open(response: str) -> dict:
     
     for pattern in explanation_patterns:
         # Find all matches and take the last one
-        explanation_matches = list(re.finditer(pattern, cleaned_response))
+        explanation_matches = list(re.finditer(pattern, cleaned_response, re.DOTALL))
         if explanation_matches:
             result['explanation'] = explanation_matches[-1].group(1).strip()
             break
@@ -447,7 +512,8 @@ def parse_generated_open(response: str) -> dict:
     # Try to extract the correct answer
     answer_patterns = [
         # Format: Correct Answer: text (with or without colon)
-        r"(?:^|\n)\s*Correct\s+Answer\s*:?\s*(.+?)(?:\n|$)",
+        # r"(?:^|\n)\s*Correct\s+Answer\s*:?\s*(.+?)(?:\n|$)",
+        r"(?:^|\n)\s*Correct\s+Answer\s*:?\s*(.+)\s*$",
         # Format: Answer: text (with or without colon)
         r"(?:^|\n)\s*Answer\s*:?\s*(.+?)(?:\n|$)",
         # Format: The answer is text
@@ -457,7 +523,7 @@ def parse_generated_open(response: str) -> dict:
     ]
     
     for pattern in answer_patterns:
-        answer_match = re.search(pattern, cleaned_response)
+        answer_match = re.search(pattern, cleaned_response, re.DOTALL)
         if answer_match:
             result['correct_answer'] = answer_match.group(1).strip()
             break
@@ -482,7 +548,7 @@ def parse_generated_open(response: str) -> dict:
     return result
 
 
-def parse_abcd(response: str) -> str:
+def parse_abcd(response: str):
     """
     Parses an LLM response to extract a single character answer (A, B, C, or D).
     
@@ -525,7 +591,7 @@ def parse_abcd(response: str) -> str:
     return None
 
 
-def parse_number(response: str, valid_options: list = None) -> int:
+def parse_number(response: str, valid_options: list = None):
     """
     Parses an LLM response to extract a single number.
     

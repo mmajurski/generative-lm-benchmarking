@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import prompts
 import answer_parser
-from model_interface import SglModelAsync
+from model_interface import SglModel
 
 
 def build_choices_string(choices):
@@ -16,6 +16,7 @@ def build_choices_string(choices):
 
 
 def compute_scores(dataset_fp, open_ended, remote, model, force=False):
+
     with open(dataset_fp, 'r') as f:
         dataset = json.load(f)
 
@@ -31,13 +32,14 @@ def compute_scores(dataset_fp, open_ended, remote, model, force=False):
     print(f"Computing explanation validity score for {dataset_fp}")
     print("Dataset has %d contexts" % len(dataset))
 
+
     # build the prompts  EXPLANATION_VALIDATION_OPEN_PROMPT
     if open_ended:
         model_prompts = [prompts.EXPLANATION_VALIDATION_OPEN_PROMPT.format(context=d.get('context', ''), question=d['question'], answer=d['answer'], explanation=d['explanation']) for d in dataset]
     else:
         model_prompts = [prompts.EXPLANATION_VALIDATION_PROMPT.format(context=d.get('context', ''), question=d['question'], choices=build_choices_string(d['choices']), answer=d['answer'], explanation=d['explanation']) for d in dataset]
 
-    model = SglModelAsync(remote=remote, model=model)
+    model = SglModel(remote=remote, model=model)
     results, total_time = model.generate(model_prompts)
     print(f"in total took: {total_time} seconds")
     print(f"per question took: {total_time / len(results)} seconds for {len(results)} questions")
@@ -80,13 +82,8 @@ def validate_explanations(ifp, open_ended=False,remote='opchat', model='Llama-4-
 
     fns = []
     for fn in os.listdir(ifp):
-        if os.path.isdir(os.path.join(ifp, fn)) and ('novel' in fn or 'reformat' in fn):
-            # Look for json files within these directories
-            dataset_dir = os.path.join(ifp, fn)
-            for file in os.listdir(dataset_dir):
-                if file.endswith('.jsonl'):
-                    # fns.append(os.path.join(dataset_dir, file))
-                    fns.append(file.replace('.jsonl', ''))
+        if fn.endswith('.json') and ('novel' in fn or 'reformat' in fn):
+            fns.append(fn)
     fns.sort()
     if len(fns) == 0:
         print(f"validate_explanations: No datasets found in {ifp}")
@@ -100,7 +97,9 @@ def validate_explanations(ifp, open_ended=False,remote='opchat', model='Llama-4-
     print(f"validate_explanations: Validating answer correctness and Explanation validity for {len(fns)} datasets")
 
     for i, fn in enumerate(fns):
-        dataset_fp = f"{ifp}/{fn}/{fn}.jsonl"
+        dataset_fp = f"{ifp}/{fn}"
+        if 'sec_qa_reformat' in dataset_fp:
+            continue
         print(f"Dataset: {dataset_fp}")
         print(f"Progress: {i+1}/{len(fns)}")
         compute_scores(dataset_fp, open_ended,remote, model, force=force_flag)
@@ -111,7 +110,9 @@ def validate_explanations(ifp, open_ended=False,remote='opchat', model='Llama-4-
     avg_answer_correctness_score = {}
     avg_explanation_validity_score = {}
     for fn in fns:
-        dataset_fp = f"{ifp}/{fn}/{fn}.jsonl"
+        dataset_fp = f"{ifp}/{fn}"
+        if 'sec_qa_reformat' in dataset_fp:
+            continue
         with open(dataset_fp, 'r') as f:
             data = json.load(f)
 
@@ -147,9 +148,6 @@ def validate_explanations(ifp, open_ended=False,remote='opchat', model='Llama-4-
 
 
 
-if __name__ == '__main__':
-    ifp = './data-subset-1k-v0-L3-70B'
-    validate_explanations(ifp)
 
 
 
