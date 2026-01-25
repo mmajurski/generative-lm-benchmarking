@@ -1,8 +1,11 @@
-# Synthetic Data Evaluation of LMs usign Grounding Documents
+# Generative Benchmarking of LMs using Grounding Documents
 
 ## Overview
 This code generates multiple-choice (MCQs) or Open-Ended (OE) questions from grounding datasets.
 
+### Paper
+
+This repository hosts the code used in the paper [https://arxiv.org/abs/2505.08905](https://arxiv.org/abs/2505.08905).
 
 ## Setup
 
