@@ -10,7 +10,7 @@ from inspect_ai import Task, task
 from inspect_ai.dataset import Sample, hf_dataset
 from inspect_ai.scorer import choice
 from inspect_ai.solver import multiple_choice
-import sgl_inspect_provider
+import vllm_inspect_provider
 import utils
 
 from dotenv import load_dotenv

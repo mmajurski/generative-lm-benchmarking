@@ -6,7 +6,6 @@ import time
 import random
 
 import answer_parser
-from similarity_filter import get_duplicate_contexts_embedding_cosine
 from model_interface import SglModel
 from generate_document_topics import extract_topics_per_context
 import prompts

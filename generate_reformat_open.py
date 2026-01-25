@@ -7,7 +7,7 @@ import random
 
 import answer_parser
 from model_interface import SglModel
-import utils
+
 
 import prompts
 
