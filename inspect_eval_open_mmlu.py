@@ -23,9 +23,13 @@ load_dotenv()
 
 
 
+# GRADER_MODEL = 'v_llm/openai/gpt-oss-120b'
+# GRADER_MODEL_BASE_URL = 'https://pn131285.nist.gov:8443/v1'
+# GRADER_MODEL_API_KEY=os.getenv("VLLM_API_KEY")
+
 GRADER_MODEL = 'v_llm/openai/gpt-oss-120b'
-GRADER_MODEL_BASE_URL = 'https://pn131285.nist.gov:8443/v1'
-GRADER_MODEL_API_KEY=os.getenv("VLLM_API_KEY")
+GRADER_MODEL_BASE_URL = 'https://rchat.nsit.gov/api'
+GRADER_MODEL_API_KEY=os.getenv("RCHAT_API_KEY")
 
 
 @solver

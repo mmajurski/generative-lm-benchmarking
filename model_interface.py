@@ -19,8 +19,11 @@ def translate_remote(remote:str) -> tuple[str, str]:
     if remote == "openai":
         url = "https://api.openai.com/v1"
         api_key = os.environ.get("OPENAI_API_KEY")
+    elif remote == "rchat":
+        url = "https://rchat.nist.gov/api"
+        api_key = os.environ.get("RCHAT_API_KEY")
     else:
-        url=f"https://{remote}:{port_num}/v1"
+        url=f"https://{remote}.nist.gov:{port_num}/v1"
         api_key = "VLLM_API_KEY"
 
         
@@ -51,8 +54,8 @@ class SglModel:
             print("OpenAI detected, setting connection parallelism to 8")
             self.connection_parallelism = 8
         if 'rchat' in self.url:
-            print("RCHAT detected, setting connection parallelism to 8")
-            self.connection_parallelism = 8
+            print("RCHAT detected, setting connection parallelism to 32")
+            self.connection_parallelism = 32
 
         print(f"Using model: {self.model} on remote: {self.remote} at {self.url} (sync={sync_flag})")
 
