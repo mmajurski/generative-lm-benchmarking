@@ -4,7 +4,7 @@ import json
 import re
 
 
-def convert_pdfs_to_qa_chunks(input_folder: str, output_folder: str, sample_count: int = None, chunk_size:int = 4000) -> None:
+def convert_pdfs_to_qa_chunks(input_folder: str, output_folder: str, sample_count: int = None, chunk_size: int = 4000) -> None:
     """
     Convert all PDF files in input_folder into chunked JSON files saved to output_folder.
 
@@ -13,7 +13,8 @@ def convert_pdfs_to_qa_chunks(input_folder: str, output_folder: str, sample_coun
     Intermediate markdown files are cached alongside the source PDFs.
 
     Args:
-        fast: If True, use pymupdf4llm instead of docling for PDF-to-markdown conversion.
+        text_only: If True, disable docling's AI models (OCR, table structure detection)
+                   and extract plain text only.
     """
     os.makedirs(output_folder, exist_ok=True)
 
@@ -22,7 +23,11 @@ def convert_pdfs_to_qa_chunks(input_folder: str, output_folder: str, sample_coun
         print(f"No PDF files found in {input_folder}")
         return
 
-    from docling.document_converter import DocumentConverter
+    from docling.document_converter import DocumentConverter, PdfFormatOption
+    from docling.datamodel.base_models import InputFormat
+    from docling.datamodel.pipeline_options import PdfPipelineOptions
+
+    
     converter = DocumentConverter()
 
     for fn in fns:
@@ -108,6 +113,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert PDF files into chunked JSON context files.')
     parser.add_argument('input_folder', help='Folder containing PDF files to convert')
     parser.add_argument('output_folder', help='Folder to save the output JSON files')
-    parser.add_argument('--fast', action='store_true', help='Use pymupdf4llm instead of docling (faster, lower quality)')
     args = parser.parse_args()
-    convert_pdfs_to_qa_chunks(args.input_folder, args.output_folder, fast=args.fast)
+    convert_pdfs_to_qa_chunks(args.input_folder, args.output_folder)

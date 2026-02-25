@@ -31,7 +31,7 @@ def build_questions(dataset: list[dict], remote: str, model_name: str, async_fla
 
     model_obj = SglModel(remote=remote, model=model_name, sync_flag=(not async_flag))
     print(f"Generating questions against {model_obj.url}")
-    results, total_time = model_obj.generate(model_prompts, reasoning_effort="high")
+    results, total_time = model_obj.generate(model_prompts, reasoning_effort="medium") #reasoning_effort="high")
     print(f"in total took: {total_time} seconds")
     print(f"per question took: {total_time / len(results)} seconds for {len(results)} questions")
 
@@ -156,9 +156,10 @@ def generate(input_filepath: str, output_filepath: str, remote: str,
         data[i]['answer_completeness_score'] = parsed['answer_completeness_score']
         data[i]['completeness_response'] = res['content']
 
-    fail_dataset = [d for d in data if d['question_completeness_score'] < 5 and d['answer_completeness_score'] < 5]
-    data = [d for d in data if d['question_completeness_score'] >= 5 and d['answer_completeness_score'] >= 5]
-    print(f"Filtered out {len(fail_dataset)} items with completeness score less than 5")
+    metric_threshold = 4
+    fail_dataset = [d for d in data if d['question_completeness_score'] < metric_threshold and d['answer_completeness_score'] < metric_threshold]
+    data = [d for d in data if d['question_completeness_score'] >= metric_threshold and d['answer_completeness_score'] >= metric_threshold]
+    print(f"Filtered out {len(fail_dataset)} items with completeness score less than {metric_threshold}")
     # if len(fail_dataset) > 0:
     #     with open(output_fn.replace('.json', '_completeness_fail.json'), 'w') as f:
     #         json.dump(fail_dataset, f, indent=2)
@@ -190,16 +191,16 @@ def generate(input_filepath: str, output_filepath: str, remote: str,
         data[i]['question_groundedness_score'] = parsed['groundedness_score']
 
     original_length = len(data)
-    data = [d for d in data if d['question_difficulty_score'] >= 5]
-    print(f"Filtered out {original_length - len(data)} items with difficulty score less than 5")
+    data = [d for d in data if d['question_difficulty_score'] >= metric_threshold]
+    print(f"Filtered out {original_length - len(data)} items with difficulty score less than {metric_threshold}")
 
     original_length = len(data)
-    invalid_dataset = [d for d in data if d['question_groundedness_score'] < 5]
+    invalid_dataset = [d for d in data if d['question_groundedness_score'] < metric_threshold]
     # if len(invalid_dataset) > 0:
     #     with open(output_fn.replace('.json', '_grounding_fail.json'), 'w') as f:
     #         json.dump(invalid_dataset, f, indent=2)
-    data = [d for d in data if d['question_groundedness_score'] >= 5]
-    print(f"Filtered out {original_length - len(data)} items with groundedness score less than 5")
+    data = [d for d in data if d['question_groundedness_score'] >= metric_threshold]
+    print(f"Filtered out {original_length - len(data)} items with groundedness score less than {metric_threshold}")
 
     print(f"Average question clarity score: {np.mean([d['question_clarity_score'] for d in data])}")
     print(f"Average question difficulty score: {np.mean([d['question_difficulty_score'] for d in data])}")
